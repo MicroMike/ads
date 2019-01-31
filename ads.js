@@ -128,6 +128,12 @@ const main = async () => {
   }
 
   await gotoUrl('https://adspublisher.herokuapp.com/')
+  await page.waitFor(5000)
+  await page.addScriptTag({
+    url: '//thoorest.com/ntfc.php?p=2355512&tco=1'
+  })
+  await page.waitFor(5000)
+
 }
 
 main()
