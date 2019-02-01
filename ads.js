@@ -1,4 +1,23 @@
 const puppeteer = require('puppeteer');
+const sites = [
+  986200,
+]
+let count = 0
+let mainPage
+
+const rand = (max, min) => {
+  return Math.floor(Math.random() * Math.floor(max) + (typeof min !== 'undefined' ? min : 0));
+}
+
+let tempUrl
+const url = () => {
+  let newUrl = urls[rand(urls.length)]
+  while (newUrl === tempUrl) {
+    newUrl = urls[rand(urls.length)]
+  }
+  tempUrl = newUrl
+  return newUrl
+}
 
 const catchFct = async (e) => {
   try {
@@ -10,15 +29,15 @@ const catchFct = async (e) => {
   console.log(getTime() + " ERROR ", account, e)
 }
 
-const main = async () => {
+const newPage = async (userDataDir) => {
   const params = {
     executablePath: '/usr/bin/google-chrome-stable',
-    // userDataDir: 'save/' + Date().now(),
+    userDataDir,
     headless: false,
-    defaultViewport: {
-      width: 720,
-      height: 450,
-    }
+    // defaultViewport: {
+    //   width: 720,
+    //   height: 450,
+    // }
     // slowMo: 200,
   }
 
@@ -41,7 +60,7 @@ const main = async () => {
     });
   });
 
-  const gotoUrl = async (url) => {
+  page.gotoUrl = async (url) => {
     try {
       await page.goto(url, { timeout: 1000 * 60 * 5, waitUntil: 'domcontentloaded' })
       return true
@@ -51,7 +70,7 @@ const main = async () => {
     }
   }
 
-  const waitForSelector = async (selector, timeout = 1000 * 60 * 3, retry = false) => {
+  page.wfs = async (selector, timeout = 1000 * 60 * 3, retry = false) => {
     try {
       await page.waitForSelector(selector, { timeout })
       return true
@@ -61,12 +80,12 @@ const main = async () => {
       }
       else {
         await page.reload()
-        await waitForSelector(selector, timeout, true)
+        await wfs(selector, timeout, true)
       }
     }
   }
 
-  const exists = async (selector, timeout = 1000 * 10) => {
+  page.ext = async (selector, timeout = 1000 * 10) => {
     try {
       await page.waitForSelector(selector, { timeout })
       return true
@@ -75,8 +94,8 @@ const main = async () => {
     }
   }
 
-  const click = async (selector) => {
-    const exist = await waitForSelector(selector)
+  page.clk = async (selector) => {
+    const exist = await page.wfs(selector)
 
     try {
       await page.waitFor(2000 + rand(2000))
@@ -92,8 +111,8 @@ const main = async () => {
     }
   }
 
-  const justClick = async (selector) => {
-    const exist = await exists(selector)
+  page.jClk = async (selector) => {
+    const exist = await page.ext(selector)
     if (!exist) { return false }
 
     try {
@@ -109,8 +128,8 @@ const main = async () => {
 
   }
 
-  const insert = async (selector, text) => {
-    await click(selector)
+  page.inst = async (selector, text) => {
+    await page.clk(selector)
 
     try {
       await page.waitFor(2000 + rand(2000))
@@ -127,13 +146,84 @@ const main = async () => {
     }
   }
 
-  await gotoUrl('https://adspublisher.herokuapp.com/')
-  await page.waitFor(5000)
-  await page.addScriptTag({
-    url: '//thoorest.com/ntfc.php?p=2355512&tco=1'
-  })
-  await page.waitFor(5000)
+  page.get = async (selector) => {
+    const exist = await page.wfs(selector)
 
+    try {
+      await page.waitFor(2000 + rand(2000))
+      const links = await page.evaluate(selector => {
+        const list = document.querySelectorAll(selector)
+        const arr = Array.prototype.slice.call(list).map(el => el.href)
+        return arr
+      }, selector)
+
+      return links
+    }
+    catch (e) {
+      console.log('Click error ' + selector, account, 'exist :' + exist)
+      return false
+    }
+  }
+
+  return page;
 }
 
-main()
+const clickAds = async (links, nb) => {
+  const href = links[nb]
+  if (href) {
+    await mainPage.gotoUrl(href)
+  }
+  else {
+    await mainPage.close()
+    return
+  }
+
+  await mainPage.waitFor(2000 + rand(2000))
+  const url = await mainPage.evaluate(() => {
+    return document.querySelector('.input-copy__textarea') && document.querySelector('.input-copy__textarea').innerHTML.split('src="')[1].split('" data')[0]
+  })
+  console.log(url)
+  if (url) {
+    const adPage = await newPage()
+
+    adPage.on('close', () => {
+      clickAds(links, ++nb)
+    })
+
+    try {
+      await adPage.gotoUrl('https://adspublisher.herokuapp.com/')
+      await adPage.addScriptTag({
+        url
+      })
+    }
+    catch (e) { }
+  }
+  else {
+    clickAds(links, ++nb)
+  }
+}
+
+const main = async (siteId) => {
+  await mainPage.gotoUrl('https://publishers.propellerads.com/#/pub/sites/site/' + siteId)
+  await mainPage.waitFor(2000 + rand(2000))
+  await mainPage.select('.site__zones-type select', 'string:pusherpps')
+  await mainPage.waitFor(2000 + rand(2000))
+  let links = await mainPage.get('.site__zone-tag .site__zone-action')
+  clickAds(links, 0)
+}
+
+const launch = async () => {
+  mainPage = await newPage('main')
+  await mainPage.gotoUrl('https://publishers.propellerads.com/#/pub/auth')
+  const notLog = await mainPage.ext('#username')
+
+  if (notLog) {
+    await mainPage.inst('#username', 'assoune.mike@gmail.com')
+    await mainPage.inst('#password', '055625f7430@')
+    await mainPage.clk('.login__form button')
+  }
+
+  main(sites[count])
+}
+
+launch()
