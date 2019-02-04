@@ -1,0 +1,18 @@
+<div class=top>
+  <div class=image></div>
+  <div class=titles>
+    {[if it.trial_ended]}
+      <div class=title translate>Your PLUS trial ended</div>
+    {[fi]}
+    {[if !it.trial_ended]}
+      <div class=title>{[=it.root_url]}</div>
+      <div class=subtitle translate>Requires specialized servers</div>
+    {[fi]}
+  </div>
+  <div class=try>{[!it.T('Subscribe to PLUS')]}</div>
+</div>
+<div class=bottom>
+  {[if it.show_cancel]}
+  <div class=cancel translate>Cancel</div>
+  {[fi]}
+</div>

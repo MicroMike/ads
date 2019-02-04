@@ -1,0 +1,11 @@
+<div>
+  {[if it.browser=='chrome' && it.rating==5]}
+    <a class=rate-us target=_blank href="https://chrome.google.com/webstore/detail/hola-better-internet/gkojfkhlekighikafcpjkiklfbnlmeio/reviews">{[!it.T('Rate us in webstore')]}</a>
+  {[fi]}
+  {[if !it.is_premium]}
+    <button class="popup-button popup-button-try">{[!it.T('Try Hola VPN PLUS')]}</button>
+  {[fi]}
+  {[if (it.rating||0)<5]}
+    <p>{[!it.T('Report a problem')]} <a class=report-problem href="#">help_be@hola.org</a></p>
+  {[fi]}
+</div>

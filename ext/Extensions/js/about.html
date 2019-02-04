@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+  <head>
+    <title>About Hola</title>
+    <link href=css/bootstrap.css rel=stylesheet>
+    <script src=bext/pub/pre_loader.js></script>
+    <script defer data-main=about.js src=require.js></script>
+  </head>
+  <body>
+    <div class="navbar navbar-static-top" role=navigation>
+      <div class=navbar-inner>
+        <div class=container>
+          <a class=brand href=https://hola.org?utm_source=holaext
+          target=_blank><img id=logo src=bext/vpn/pub/img/logo.png>
+            <span class=l_logo></span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class=container>
+      <h1 id="title" style="user-select: none;">About Hola</h1>
+      <div class=content></div>
+    </div>
+    <div id=report_modal class="fade in modal" role=dialog>
+      <div class=modal-dialog>
+        <div class=modal-content role=document>
+          <div class=modal-header>
+            Report an issue
+          </div>
+          <div class=modal-body>
+            <div class=form-group>
+              <input type=text name=subj placeholder="Subject" class=form-control>
+            </div>
+            <div class=form-group>
+              <textarea name=desc placeholder="Description" rows=10 class=form-control></textarea>
+            </div>
+          </div>
+          <div class=modal-footer>
+            <button type=button class="btn btn-default">Cancel</button>
+            <button disabled="" type=button class="btn btn-primary">Send</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

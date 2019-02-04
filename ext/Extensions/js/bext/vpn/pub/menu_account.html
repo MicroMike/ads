@@ -1,0 +1,32 @@
+<div class=header>{[!it.T('My account')]}</div>
+<div class=info>
+  <div class=title>{[!it.T('Account type:')]}</div>
+  <div class=value>
+  {[if it.is_premium]}
+    {[!it.T('PLUS')]}
+  {[else]}
+    {[!it.T('Free')]}
+  {[fi]}
+  {[if !it.is_premium]}
+    <a class=upgrade href="https://hola.org/plus?ref=holaext-menu-account-upgrade&utm_source=holaext&utm_content=menu-account-upgrade" target=_blank>
+      {[!it.T('Upgrade')]}
+    </a>
+  {[fi]}
+    <a class=manage href="https://hola.org/cp?utm_source=holaext&utm_content=menu-account-manage" target=_blank>
+      {[!it.T('Manage')]}
+    </a>
+  </div>
+  <div class=title>{[!it.T('User:')]}</div>
+  <div class=value>{[!it.email]}</div>
+</div>
+{[if it.is_premium]}{[=it.products]}{[fi]}
+<div class=log-out>
+  <button class=menu-button>{[!it.T('Log out')]}</button>
+</div>
+{[if !it.is_premium]}
+<div class=try-premium>
+  <a href="https://hola.org/plus?ref=holaext-menu-account-try&utm_source=holaext&utm_content=menu-account-try" target=_blank>
+    {[!it.T('Try Hola VPN PLUS')]}
+  </a>
+</div>
+{[fi]}

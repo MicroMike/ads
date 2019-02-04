@@ -1,0 +1,83 @@
+<i class="popup-header-controls-button popup-header-nav"
+  title="{[!it.T('Menu')]}">
+  <svg class="hamburger-top" height="100%" width="100%"
+    viewBox="0 0 14 2" style="display:none;">
+    <path d="M1 2h12c.6 0 1-.4 1-1s-.4-1-1-1H1C.4 0 0 .4 0 1s.4 1 1 1z"/>
+  </svg>
+  <svg class="hamburger-middle" height="100%" width="100%"
+    viewBox="0 0 14 2" style="display:none;">
+    <path d="M1 2h12c.6 0 1-.4 1-1s-.4-1-1-1H1C.4 0 0 .4 0 1s.4 1 1 1z"/>
+  </svg>
+  <svg class="hamburger-bottom" height="100%" width="100%"
+    viewBox="0 0 14 2" style="display:none;">
+    <path d="M1 2h12c.6 0 1-.4 1-1s-.4-1-1-1H1C.4 0 0 .4 0 1s.4 1 1 1z"/>
+  </svg>
+</i>
+<div class=popup-header-menu>
+  <div class="popup-header-menu-general{[if it.display_name]} user-signed{[fi]}">
+    <div class="user-info-wrapper">
+    {[if it.display_name]}
+      <div class="user-info">
+        <div class=user-status>
+        {[if it.is_premium]}
+          {[!it.T('Hola VPN PLUS')]}
+        {[else]}
+          {[!it.T('Hola Free VPN')]}
+        {[fi]}
+        </div>
+        <div class=user-name>
+          {[!it.display_name]}
+        </div>
+      </div>
+    {[else]}
+      <a class="user_link user_link_login menu-button" id=sign_in target=_blank
+        href="https://hola.org/signin?utm_source=holaext&utm_content=menu">
+        {[!it.T('Sign In')]}
+      </a>
+    {[fi]}
+    </div>
+    <ul class="menu-items">
+    {[if it.is_premium]}
+      <li class="menu-item-protect menu-item">
+        <a href="https://hola.org/plus_setup?platform=windows&utm_source=holaext&utm_content=menu-protect"
+          target=_blank>
+          {[!it.T('Protect entire PC')]}
+        </a>
+      </li>
+      <li class="menu-item-install menu-item">
+        <a href="https://hola.org/plus_setup?utm_source=holaext&utm_content=menu-install"
+          target=_blank>
+          {[!it.T('Install on other devices')]}
+        </a>
+      </li>
+      <li class="menu-item-divider menu-item"></li>
+    {[fi]}
+    {[if it.is_lang]}
+      <li class="l_menuitem_lang menu-item-lang menu-item">
+        <a href="#">{[!it.T('Language')]}</a>
+      </li>
+    {[fi]}
+      <li class="menu-item menu-item-settings">
+        <a href="https://hola.org/access/my/settings" target=_blank>
+          {[!it.T('Settings')]}
+        </a>
+      </li>
+      <li class="menu-item-help menu-item"><a
+        class="user_link"
+        href="https://hola.org/faq"
+        target=_blank>{[!it.T('Help')]}</a></li>
+      <li class="menu-item-about menu-item">
+        <a>{[!it.T('About')]}</a>
+      </li>
+    {[if !it.is_premium]}
+      <li class="menu-item-premium menu-item">
+        <a href="https://hola.org/plus?ref=holaext-menu-try&utm_source=holaext&utm_content=menu-try"
+          target=_blank>
+          {[!it.T('Try Hola VPN PLUS')]}
+        </a>
+      </li>
+    {[fi]}
+    </ul>
+    {[=it.products]}
+  </div>
+</div>

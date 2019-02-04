@@ -29,16 +29,17 @@ const catchFct = async (e) => {
   console.log(getTime() + " ERROR ", account, e)
 }
 
+const CRX_PATH = 'C:\\Users\\massoune\\workspace\\ads\\ext\\Extensions'
 const newPage = async (userDataDir) => {
   const params = {
     executablePath: '/usr/bin/google-chrome-stable',
     userDataDir,
     headless: false,
-    // defaultViewport: {
-    //   width: 720,
-    //   height: 450,
-    // }
-    // slowMo: 200,
+    args: [
+      `--disable-extensions-except=${CRX_PATH}`,
+      `--load-extension=${CRX_PATH}`,
+      '--user-agent=PuppeteerAgent'
+    ]
   }
 
   let browser
@@ -195,6 +196,7 @@ const clickAds = async (links, nb) => {
       await adPage.addScriptTag({
         url
       })
+      await mainPage.waitFor(2000 + rand(2000))
       await adPage.evaluate(() => {
         document.querySelector('iframe').contentDocument.querySelector('#A button + button') && document.querySelector('iframe').contentDocument.querySelector('#A button + button').onclick()
       })

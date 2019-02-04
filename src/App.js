@@ -17,8 +17,6 @@ class App extends Component {
       2353098,
     ]
 
-    return
-
     let count = window.localStorage.getItem('countAds')
     let nbCount = Number(count)
 
@@ -47,8 +45,8 @@ class App extends Component {
 
 
     setTimeout(() => {
-      // window.location.reload()
-    }, 1000 * 12);
+      window.location.reload()
+    }, 1000 * 10);
   }
 
   onclickBtn = () => {

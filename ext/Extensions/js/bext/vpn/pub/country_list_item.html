@@ -1,0 +1,9 @@
+<li class="country" data-country="{[=it.country]}" data-disable="{[=it.disable]}" data-premium="{[if it.type=='premium']}1{[else]}0{[fi]}">
+  <a class="f32 ui_lock_parent">
+    <span class="ui_lock_container flag {[=it.country.toLowerCase()]} {[=it.disabled?'flag_fade ui_lock_revert':'']}"></span>
+    <span class="flag_name" title="{[=it.name]}"> {[=it.name]}</span>
+    {[if it.type=='premium']}
+    <span class="flag_type">{[=it.T('PLUS')]}</span>
+    {[fi]}
+  </a>
+</li>

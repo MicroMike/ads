@@ -1,0 +1,20 @@
+<!doctype html>
+<html>
+  <head>
+    <link rel=stylesheet href=".{[MD5 /bext/vpn/pub/css/popup.css]}">
+    <script src=".{[MD5 /bext/pub/pre_loader.js]}"></script>
+    <script src=".{[MD5 /require.js]}"></script>
+  </head>
+  <body id="tpopup_body" class="site_premium_popup">
+    <div id=all></div>
+    <script>
+      window.is_tpopup = true;
+      var path = location.pathname||'';
+      var base_path = path.substr(0, path.lastIndexOf('/'));
+      require.config({paths: {
+	  be_popup: base_path+'{[MD5 /popup.js]}',
+      }});
+      require(['be_popup']);
+    </script>
+  </body>
+</html>
