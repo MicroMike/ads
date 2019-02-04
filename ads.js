@@ -20,27 +20,17 @@ const url = () => {
   return newUrl
 }
 
-const catchFct = async (e) => {
-  try {
-    await page.goto('about:blank')
-    await page.close()
-  }
-  catch (e) { }
-
-  console.log(getTime() + " ERROR ", account, e)
-}
-
-const CRX_PATH = 'C:\\Users\\massoune\\workspace\\ads\\ext\\Extensions'
+const CRX_PATH = 'C:\\Users\\mike\\workspace\\ads\\ext\\Extensions'
 const newPage = async (userDataDir) => {
   const params = {
     executablePath: '/usr/bin/google-chrome-stable',
     userDataDir,
     headless: false,
-    // args: [
-    //   `--disable-extensions-except=${CRX_PATH}`,
-    //   `--load-extension=${CRX_PATH}`,
-    //   '--user-agent=PuppeteerAgent'
-    // ]
+    args: [
+      //   `--disable-extensions-except=${CRX_PATH}`,
+      //   `--load-extension=${CRX_PATH}`,
+      '--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36'
+    ]
   }
 
   let browser
@@ -82,7 +72,7 @@ const newPage = async (userDataDir) => {
       }
       else {
         await page.reload()
-        await wfs(selector, timeout, true)
+        await page.wfs(selector, timeout, true)
       }
     }
   }
@@ -248,10 +238,15 @@ const launch = async (loopcount, loopcount2) => {
     launch(loopcount, loopcount2 + 1)
   }
   else {
-    launch(loopcount + 1, 0)
+    setTimeout(() => {
+      launch(loopcount + 1, 0)
+    }, 1000 * 60);
   }
   try {
     await adPage.gotoUrl('https://adspublisher.herokuapp.com/')
+    await adPage.addScriptTag({
+      url: '//tharbadir.com/2?z=2354986'
+    })
     await adPage.addScriptTag({
       url: urls[loopcount].replace('*', ads[loopcount2])
     })
@@ -260,7 +255,9 @@ const launch = async (loopcount, loopcount2) => {
       document.querySelector('iframe').contentDocument.querySelector('#A button + button') && document.querySelector('iframe').contentDocument.querySelector('#A button + button').onclick()
     })
 
-    adPage.close()
+    setTimeout(() => {
+      adPage.close()
+    }, 1000 * 7);
   }
   catch (e) { }
 
