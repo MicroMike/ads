@@ -2,6 +2,7 @@ const puppeteer = require('puppeteer');
 const sites = [
   986200,
 ]
+
 let count = 0
 let mainPage
 
@@ -35,11 +36,11 @@ const newPage = async (userDataDir) => {
     executablePath: '/usr/bin/google-chrome-stable',
     userDataDir,
     headless: false,
-    args: [
-      `--disable-extensions-except=${CRX_PATH}`,
-      `--load-extension=${CRX_PATH}`,
-      '--user-agent=PuppeteerAgent'
-    ]
+    // args: [
+    //   `--disable-extensions-except=${CRX_PATH}`,
+    //   `--load-extension=${CRX_PATH}`,
+    //   '--user-agent=PuppeteerAgent'
+    // ]
   }
 
   let browser
@@ -200,7 +201,6 @@ const clickAds = async (links, nb) => {
       await adPage.evaluate(() => {
         document.querySelector('iframe').contentDocument.querySelector('#A button + button') && document.querySelector('iframe').contentDocument.querySelector('#A button + button').onclick()
       })
-
     }
     catch (e) { }
   }
@@ -218,7 +218,57 @@ const main = async (siteId) => {
   clickAds(links, 0)
 }
 
-const launch = async () => {
+const urls = [
+  '//newhigee.net/ntfc.php?p=*&tco=1',
+  '//boacheeb.com/ntfc.php?p=*&tco=1',
+  '//zoagremo.net/ntfc.php?p=*&tco=1',
+  '//letaikay.net/ntfc.php?p=*&tco=1',
+  '//chaghets.net/ntfc.php?p=*&tco=1',
+  '//leechiza.net/ntfc.php?p=*&tco=1',
+  '//thoorest.com/ntfc.php?p=*&tco=1',
+  '//pastoupt.com/ntfc.php?p=*&tco=1',
+  '//joophesh.com/ntfc.php?p=*&tco=1',
+]
+const ads = [
+  2356624,
+  2356622,
+  2356620,
+  2356616,
+  2356615,
+  2355780,
+  2355775,
+  2355512,
+  2354995,
+  2353098,
+]
+
+const launch = async (loopcount, loopcount2) => {
+
+  const adPage = await newPage()
+  try {
+    await adPage.gotoUrl('https://adspublisher.herokuapp.com/')
+    await adPage.addScriptTag({
+      url: urls[loopcount].replace('*', ads[loopcount2])
+    })
+    await adPage.waitFor(2000 + rand(2000))
+    await adPage.evaluate(() => {
+      document.querySelector('iframe').contentDocument.querySelector('#A button + button') && document.querySelector('iframe').contentDocument.querySelector('#A button + button').onclick()
+    })
+
+    setTimeout(() => {
+      adPage.close()
+    }, 1000);
+
+    if (loopcount2 + 1 < ads.length) {
+      launch(loopcount, loopcount2 + 1)
+    }
+    else {
+      launch(loopcount + 1, 0)
+    }
+  }
+  catch (e) { }
+
+  return
   mainPage = await newPage('main')
   await mainPage.gotoUrl('https://publishers.propellerads.com/#/pub/auth')
   const notLog = await mainPage.ext('#username')
@@ -232,4 +282,4 @@ const launch = async () => {
   main(sites[count])
 }
 
-launch()
+launch(0, 0)
