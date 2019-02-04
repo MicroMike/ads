@@ -195,6 +195,10 @@ const clickAds = async (links, nb) => {
       await adPage.addScriptTag({
         url
       })
+      await adPage.evaluate(() => {
+        document.querySelector('iframe').contentDocument.querySelector('#A button + button') && document.querySelector('iframe').contentDocument.querySelector('#A button + button').onclick()
+      })
+
     }
     catch (e) { }
   }
