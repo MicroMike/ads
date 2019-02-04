@@ -240,7 +240,7 @@ const launch = async (loopcount, loopcount2) => {
   else {
     setTimeout(() => {
       launch(loopcount + 1, 0)
-    }, 1000 * 60);
+    }, 1000 * 60 * 2);
   }
   try {
     await adPage.gotoUrl('https://adspublisher.herokuapp.com/')
