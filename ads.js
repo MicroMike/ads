@@ -243,8 +243,13 @@ const ads = [
 ]
 
 const launch = async (loopcount, loopcount2) => {
-
   const adPage = await newPage()
+  if (loopcount2 + 1 < ads.length) {
+    launch(loopcount, loopcount2 + 1)
+  }
+  else {
+    launch(loopcount + 1, 0)
+  }
   try {
     await adPage.gotoUrl('https://adspublisher.herokuapp.com/')
     await adPage.addScriptTag({
@@ -255,16 +260,7 @@ const launch = async (loopcount, loopcount2) => {
       document.querySelector('iframe').contentDocument.querySelector('#A button + button') && document.querySelector('iframe').contentDocument.querySelector('#A button + button').onclick()
     })
 
-    setTimeout(() => {
-      adPage.close()
-    }, 1000);
-
-    if (loopcount2 + 1 < ads.length) {
-      launch(loopcount, loopcount2 + 1)
-    }
-    else {
-      launch(loopcount + 1, 0)
-    }
+    adPage.close()
   }
   catch (e) { }
 
