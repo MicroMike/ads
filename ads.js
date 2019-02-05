@@ -276,7 +276,7 @@ const launch = async (loopcount, loopcount2, retry) => {
 
       setTimeout(async () => {
         await adPage.close()
-      }, 1000 * 10);
+      }, 1000 * 5);
 
       setTimeout(() => {
         if (loopcount2 + 1 < ads.length) {
