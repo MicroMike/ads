@@ -38,6 +38,11 @@ let domain
 let over = false
 const CRX_PATH = 'C:\\Users\\mike\\workspace\\ads\\ext\\Extensions'
 
+const logTime = () => {
+  const date = new Date
+  console.log(date.getUTCHours() + 1 + 'H' + date.getUTCMinutes())
+}
+
 const rand = (max, min) => {
   return Math.floor(Math.random() * Math.floor(max) + (typeof min !== 'undefined' ? min : 0));
 }
@@ -329,7 +334,10 @@ const launch = async (loopcount, loopcount2, retry) => {
 let countMulti = 0
 
 const multi = () => {
-  if (countMulti === domains.length) { return }
+  if (countMulti === domains.length) {
+    logTime()
+    return
+  }
   console.log('Launch: ' + countMulti)
 
   ads = adsArr[countMulti]
@@ -353,6 +361,7 @@ const multi = () => {
   }, 1000 * 10);
 }
 
+logTime()
 fs.remove('save', async (err) => {
   multi()
 })
