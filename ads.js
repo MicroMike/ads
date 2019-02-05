@@ -60,6 +60,10 @@ const url = () => {
   return newUrl
 }
 
+const ua = process.env.UA === 'mobile'
+  ? 'Mozilla/5.0 (Linux; Android 7.0; Moto G (4) Build/NPJS25.93-14-18) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Mobile Safari/537.36'
+  : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36'
+
 const newPage = async (userDataDir) => {
   const params = {
     executablePath: '/usr/bin/google-chrome-stable',
@@ -71,8 +75,7 @@ const newPage = async (userDataDir) => {
       '--disable-translate',
       '--window-position=0,0',
       '--window-size=100,100',
-      '--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36',
-      // '--user-agent=Mozilla/5.0 (Linux; Android 7.0; Moto G (4) Build/NPJS25.93-14-18) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Mobile Safari/537.36',
+      '--user-agent=' + ua,
     ]
   }
 
@@ -311,7 +314,7 @@ const launch = async (loopcount, loopcount2, retry) => {
         else if (loopcount + 5 < urls.length) {
           // launch(loopcount + 5, 0)
         }
-      }, 1000 * 10);
+      }, 1000 * 5);
 
     }
     catch (e) {
