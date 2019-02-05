@@ -332,8 +332,10 @@ const multi = () => {
   console.log('Launch: ' + countMulti)
   if (countMulti === domains.length) { return }
 
-  ads = adsArr[countMulti++]
-  domain = domains[countMulti++]
+  ads = adsArr[countMulti]
+  domain = domains[countMulti]
+
+  countMulti++
 
   launch(0, 0)
   launch(1, 0)
