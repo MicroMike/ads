@@ -2,6 +2,7 @@ const puppeteer = require('puppeteer');
 const sites = [
   986200,
 ]
+const fs = require('fs-extra')
 
 let count = 0
 let mainPage
@@ -29,10 +30,11 @@ const newPage = async (userDataDir) => {
     args: [
       //   `--disable-extensions-except=${CRX_PATH}`,
       //   `--load-extension=${CRX_PATH}`,
-      '--disable-translate=true',
-      '--window-position=0,0',
-      '--window-size=10,10',
-      '--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36'
+      '--disable-translate',
+      // '--window-position=0,0',
+      // '--window-size=10,10',
+      '--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36',
+      // '--user-agent=Mozilla/5.0 (Linux; Android 7.0; Moto G (4) Build/NPJS25.93-14-18) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Mobile Safari/537.36',
     ]
   }
 
@@ -235,34 +237,55 @@ const ads = [
   2353098,
 ]
 
-const launch = async (loopcount, loopcount2) => {
-  const adPage = await newPage()
-  if (loopcount2 + 1 < ads.length) {
-    launch(loopcount, loopcount2 + 1)
-  }
-  else {
-    setTimeout(() => {
-      launch(loopcount + 1, 0)
-    }, 1000 * 60 * 0.5);
-  }
-  try {
-    await adPage.gotoUrl('https://adspublisher.herokuapp.com/')
-    await adPage.addScriptTag({
-      url: '//tharbadir.com/2?z=2354986'
-    })
-    await adPage.addScriptTag({
-      url: urls[loopcount].replace('*', ads[loopcount2])
-    })
-    await adPage.waitFor(2000 + rand(2000))
-    await adPage.evaluate(() => {
-      document.querySelector('iframe').contentDocument.querySelector('#A button + button') && document.querySelector('iframe').contentDocument.querySelector('#A button + button').onclick()
-    })
+const launch = async (loopcount, loopcount2, retry) => {
+  const tmp = 'save/' + Date.now() + Math.random()
+  fs.ensureDir(tmp + '/Default', async (err) => {
+    if (err !== null) {
+      console.log(err) // => null
+    }
 
-    setTimeout(() => {
-      adPage.close()
-    }, 1000 * 7);
-  }
-  catch (e) { }
+    await fs.copy('Preferences', tmp + '/Default/Preferences')
+
+    const adPage = await newPage(tmp)
+
+    try {
+      await adPage.gotoUrl('https://adspublisher.herokuapp.com/')
+      await adPage.addScriptTag({
+        url: urls[loopcount].replace('*', ads[loopcount2])
+      })
+      await adPage.waitFor(rand(1000))
+      const el = await adPage.evaluate(() => {
+        const el = document.querySelector('iframe').contentDocument.querySelector('#A button + button')
+        document.querySelector('iframe').contentDocument.querySelector('#A button + button') && document.querySelector('iframe').contentDocument.querySelector('#A button + button').onclick()
+        return !!el
+      })
+
+      if (!el) {
+        console.log(loopcount, loopcount2)
+        await adPage.close()
+        launch(loopcount, loopcount2, true)
+        return
+      }
+
+      if (retry) {
+        console.log(loopcount, loopcount2, 'ok')
+      }
+
+      setTimeout(async () => {
+        await adPage.close()
+        if (loopcount2 + 1 < ads.length) {
+          launch(loopcount, loopcount2 + 1)
+        }
+        else if (loopcount + 1 < urls.length) {
+          launch(loopcount + 1, 0)
+        }
+        else { return }
+      }, 1000 * 5);
+    }
+    catch (e) {
+      console.log(e)
+    }
+  })
 
   return
   mainPage = await newPage('main')
@@ -278,4 +301,6 @@ const launch = async (loopcount, loopcount2) => {
   main(sites[count])
 }
 
-launch(0, 0)
+fs.remove('save', async (err) => {
+  launch(0, 0)
+})
