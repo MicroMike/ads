@@ -3,10 +3,40 @@ const sites = [
   986200,
 ]
 const fs = require('fs-extra')
+const adsArr = [[
+  2356624,
+  2356622,
+  2356620,
+  2356616,
+  2356615,
+  2355780,
+  2355775,
+  2355512,
+  2354995,
+  2353098,
+], [
+  2371461,
+  2371459,
+  2371456,
+  2371454,
+  2371452,
+  2371450,
+  2371448,
+  2371443,
+  2371441,
+  2371439,
+]]
 
+const domains = [
+  'adspublisher',
+  'reine',
+]
 let count = 0
 let success = 0
 let mainPage
+let ads
+let domain
+let over = false
 const CRX_PATH = 'C:\\Users\\mike\\workspace\\ads\\ext\\Extensions'
 
 const rand = (max, min) => {
@@ -32,8 +62,8 @@ const newPage = async (userDataDir) => {
       //   `--disable-extensions-except=${CRX_PATH}`,
       //   `--load-extension=${CRX_PATH}`,
       '--disable-translate',
-      // '--window-position=0,0',
-      // '--window-size=10,10',
+      '--window-position=0,0',
+      '--window-size=100,100',
       '--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36',
       // '--user-agent=Mozilla/5.0 (Linux; Android 7.0; Moto G (4) Build/NPJS25.93-14-18) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Mobile Safari/537.36',
     ]
@@ -224,18 +254,7 @@ const urls = [
   '//thoorest.com/ntfc.php?p=*&tco=1',
   '//pastoupt.com/ntfc.php?p=*&tco=1',
   '//joophesh.com/ntfc.php?p=*&tco=1',
-]
-const ads = [
-  2356624,
-  2356622,
-  2356620,
-  2356616,
-  2356615,
-  2355780,
-  2355775,
-  2355512,
-  2354995,
-  2353098,
+  '//cimoghuk.net/ntfc.php?p=*&tco=1',
 ]
 
 const launch = async (loopcount, loopcount2, retry) => {
@@ -250,7 +269,7 @@ const launch = async (loopcount, loopcount2, retry) => {
     const adPage = await newPage(tmp)
 
     try {
-      await adPage.gotoUrl('https://adspublisher.herokuapp.com/')
+      await adPage.gotoUrl('https://' + domain + '.herokuapp.com/')
       await adPage.addScriptTag({
         url: urls[loopcount].replace('*', ads[loopcount2])
       })
@@ -276,22 +295,21 @@ const launch = async (loopcount, loopcount2, retry) => {
 
       setTimeout(async () => {
         await adPage.close()
-      }, 1000 * 7);
+      }, 1000 * 10);
 
       setTimeout(() => {
         if (loopcount2 + 1 < ads.length) {
-          // launch(loopcount, loopcount2 + 1)
+          launch(loopcount, loopcount2 + 1)
         }
-        else if (loopcount + 4 < urls.length) {
-          // launch(loopcount + 4, 0)
+        else if (loopcount + 5 < urls.length) {
+          launch(loopcount + 5, 0)
         }
-        else {
-          console.log('Success: ' + success)
-        }
-      }, 1000);
+      }, 1000 * 10);
+
     }
     catch (e) {
       console.log(e)
+      launch(loopcount, loopcount2, true)
     }
   })
 
@@ -309,14 +327,34 @@ const launch = async (loopcount, loopcount2, retry) => {
   main(sites[count])
 }
 
-fs.remove('save', async (err) => {
+const countMulti = 0
+
+const multi = () => {
+  if (countMulti === domains.length) { return }
+
+  ads = adsArr[countMulti++]
+  domain = domains[countMulti++]
+
   launch(0, 0)
   launch(1, 0)
   launch(2, 0)
   launch(3, 0)
   launch(4, 0)
-  launch(5, 0)
-  launch(6, 0)
-  launch(7, 0)
-  launch(8, 0)
+
+  const inter = setInterval(() => {
+    if (over) { return clearInterval(inter) }
+    if (success === 100) {
+      success = 0
+      clearInterval(inter)
+      multi()
+    }
+  }, 1000 * 10);
+}
+
+fs.remove('save', async (err) => {
+  multi()
 })
+
+process.on('SIGINT', function (code) {
+  over = true
+});
