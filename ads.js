@@ -329,8 +329,8 @@ const launch = async (loopcount, loopcount2, retry) => {
 let countMulti = 0
 
 const multi = () => {
-  console.log('Launch: ' + countMulti)
   if (countMulti === domains.length) { return }
+  console.log('Launch: ' + countMulti)
 
   ads = adsArr[countMulti]
   domain = domains[countMulti]
