@@ -1,8 +1,11 @@
 const puppeteer = require('puppeteer');
+const fs = require('fs-extra')
+
+process.setMaxListeners(Infinity)
+
 const sites = [
   986200,
 ]
-const fs = require('fs-extra')
 const adsArr = [[
   2356624,
   2356622,
