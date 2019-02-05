@@ -278,8 +278,8 @@ const launch = async (loopcount, loopcount2, retry) => {
 
     const adPage = await newPage(tmp)
 
-    if (loopcount2 === 0 && !retry) {
-      launch(loopcount + 1, loopcount2)
+    if (loopcount2 + 1 < ads.length) {
+      launch(loopcount, loopcount2 + 1)
     }
 
     try {
@@ -294,9 +294,6 @@ const launch = async (loopcount, loopcount2, retry) => {
         return !!el
       })
 
-      if (loopcount2 + 1 < ads.length) {
-        launch(loopcount, loopcount2 + 1)
-      }
       await adPage.close()
 
       if (!el) {
@@ -348,6 +345,15 @@ const multi = () => {
   countMulti++
 
   launch(0, 0)
+  launch(1, 0)
+  launch(2, 0)
+  launch(3, 0)
+  launch(4, 0)
+  launch(5, 0)
+  launch(6, 0)
+  launch(7, 0)
+  launch(8, 0)
+  launch(9, 0)
 
   const inter = setInterval(() => {
     if (over) { return clearInterval(inter) }
