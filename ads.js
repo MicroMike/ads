@@ -339,6 +339,7 @@ let countMulti = 0
 const multi = () => {
   if (countMulti === domains.length) {
     logTime()
+    over = true
     return
   }
   console.log('Launch: ' + countMulti)
