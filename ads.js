@@ -282,8 +282,8 @@ const launch = async (loopcount, loopcount2, retry) => {
         if (loopcount2 + 1 < ads.length) {
           launch(loopcount, loopcount2 + 1)
         }
-        else if (loopcount + 2 < urls.length) {
-          launch(loopcount + 2, 0)
+        else if (loopcount + 3 < urls.length) {
+          launch(loopcount + 3, 0)
         }
         else {
           console.log('Success: ' + success)
@@ -312,4 +312,5 @@ const launch = async (loopcount, loopcount2, retry) => {
 fs.remove('save', async (err) => {
   launch(0, 0)
   launch(1, 0)
+  launch(3, 0)
 })
