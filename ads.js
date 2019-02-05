@@ -5,6 +5,7 @@ const sites = [
 const fs = require('fs-extra')
 
 let count = 0
+let success = 0
 let mainPage
 
 const rand = (max, min) => {
@@ -236,8 +237,6 @@ const ads = [
   2354995,
   2353098,
 ]
-
-let success = 0
 
 const launch = async (loopcount, loopcount2, retry) => {
   const tmp = 'save/' + Date.now() + Math.random()
