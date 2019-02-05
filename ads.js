@@ -7,6 +7,7 @@ const fs = require('fs-extra')
 let count = 0
 let success = 0
 let mainPage
+const CRX_PATH = 'C:\\Users\\mike\\workspace\\ads\\ext\\Extensions'
 
 const rand = (max, min) => {
   return Math.floor(Math.random() * Math.floor(max) + (typeof min !== 'undefined' ? min : 0));
@@ -22,7 +23,6 @@ const url = () => {
   return newUrl
 }
 
-const CRX_PATH = 'C:\\Users\\mike\\workspace\\ads\\ext\\Extensions'
 const newPage = async (userDataDir) => {
   const params = {
     executablePath: '/usr/bin/google-chrome-stable',
