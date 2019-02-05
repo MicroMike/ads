@@ -253,7 +253,7 @@ const launch = async (loopcount, loopcount2, retry) => {
       await adPage.addScriptTag({
         url: urls[loopcount].replace('*', ads[loopcount2])
       })
-      await adPage.waitFor(rand(1000))
+      await adPage.wfs('iframe')
       const el = await adPage.evaluate(() => {
         const el = document.querySelector('iframe').contentDocument.querySelector('#A button + button')
         document.querySelector('iframe').contentDocument.querySelector('#A button + button') && document.querySelector('iframe').contentDocument.querySelector('#A button + button').onclick()
