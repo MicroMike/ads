@@ -275,19 +275,19 @@ const launch = async (loopcount, loopcount2, retry) => {
       success++
 
       setTimeout(async () => {
-        if (loopcount2 + 1 < ads.length) {
-          launch(loopcount, loopcount2 + 1)
-        }
-        else if (loopcount + 2 < urls.length) {
-          launch(loopcount + 2, 0)
-        }
-        else {
-          console.log('Success: ' + success)
-          return
-        }
-
         await adPage.close()
       }, 1000 * 5);
+
+      if (loopcount2 + 1 < ads.length) {
+        launch(loopcount, loopcount2 + 1)
+      }
+      else if (loopcount + 2 < urls.length) {
+        launch(loopcount + 2, 0)
+      }
+      else {
+        console.log('Success: ' + success)
+        return
+      }
     }
     catch (e) {
       console.log(e)
