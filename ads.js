@@ -373,8 +373,8 @@ const multi = () => {
   }, 1000 * 10);
 }
 
-logTime()
 fs.remove('save', async (err) => {
+  logTime()
   multi()
 })
 
