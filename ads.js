@@ -268,7 +268,7 @@ const urls = [
 ]
 
 const launch = async (loopcount, loopcount2, retry) => {
-  const tmp = 'save/' + Date.now() + Math.random()
+  const tmp = 'save/' + 1 + Math.random()
   fs.ensureDir(tmp + '/Default', async (err) => {
     if (err !== null) {
       console.log(err)
@@ -277,6 +277,10 @@ const launch = async (loopcount, loopcount2, retry) => {
     await fs.copy('Preferences', tmp + '/Default/Preferences')
 
     const adPage = await newPage(tmp)
+
+    if (loopcount2 === 0 && !retry) {
+      launch(loopcount + 1, loopcount2)
+    }
 
     try {
       await adPage.gotoUrl('https://' + domain + '.herokuapp.com/')
@@ -344,15 +348,6 @@ const multi = () => {
   countMulti++
 
   launch(0, 0)
-  launch(1, 0)
-  launch(2, 0)
-  launch(3, 0)
-  launch(4, 0)
-  launch(5, 0)
-  launch(6, 0)
-  launch(7, 0)
-  launch(8, 0)
-  launch(9, 0)
 
   const inter = setInterval(() => {
     if (over) { return clearInterval(inter) }
