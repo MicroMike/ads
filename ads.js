@@ -272,7 +272,6 @@ const launch = async (loopcount, loopcount2, retry) => {
       }
 
       setTimeout(async () => {
-        await adPage.close()
         if (loopcount2 + 1 < ads.length) {
           launch(loopcount, loopcount2 + 1)
         }
@@ -280,6 +279,7 @@ const launch = async (loopcount, loopcount2, retry) => {
           launch(loopcount + 1, 0)
         }
         else { return }
+        await adPage.close()
       }, 1000 * 5);
     }
     catch (e) {
