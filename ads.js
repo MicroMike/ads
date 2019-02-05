@@ -29,6 +29,8 @@ const newPage = async (userDataDir) => {
     args: [
       //   `--disable-extensions-except=${CRX_PATH}`,
       //   `--load-extension=${CRX_PATH}`,
+      '--window-position=0,0',
+      '--window-size=10,10',
       '--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36'
     ]
   }
@@ -240,7 +242,7 @@ const launch = async (loopcount, loopcount2) => {
   else {
     setTimeout(() => {
       launch(loopcount + 1, 0)
-    }, 1000 * 60 * 2);
+    }, 1000 * 60 * 1);
   }
   try {
     await adPage.gotoUrl('https://adspublisher.herokuapp.com/')
