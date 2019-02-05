@@ -237,6 +237,8 @@ const ads = [
   2353098,
 ]
 
+let success = 0
+
 const launch = async (loopcount, loopcount2, retry) => {
   const tmp = 'save/' + Date.now() + Math.random()
   fs.ensureDir(tmp + '/Default', async (err) => {
@@ -271,6 +273,8 @@ const launch = async (loopcount, loopcount2, retry) => {
         console.log(loopcount, loopcount2, 'ok')
       }
 
+      success++
+
       setTimeout(async () => {
         if (loopcount2 + 1 < ads.length) {
           launch(loopcount, loopcount2 + 1)
@@ -278,7 +282,10 @@ const launch = async (loopcount, loopcount2, retry) => {
         else if (loopcount + 2 < urls.length) {
           launch(loopcount + 2, 0)
         }
-        else { return }
+        else {
+          console.log('Success: ' + success)
+          return
+        }
 
         await adPage.close()
       }, 1000 * 5);
