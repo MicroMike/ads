@@ -276,7 +276,7 @@ const launch = async (loopcount, loopcount2, retry) => {
 
       setTimeout(async () => {
         await adPage.close()
-      }, 1000 * 5);
+      }, 1000 * 7);
 
       setTimeout(() => {
         if (loopcount2 + 1 < ads.length) {
@@ -312,5 +312,5 @@ const launch = async (loopcount, loopcount2, retry) => {
 fs.remove('save', async (err) => {
   launch(0, 0)
   launch(1, 0)
-  launch(3, 0)
+  launch(2, 0)
 })
