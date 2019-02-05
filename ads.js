@@ -26,7 +26,6 @@ const adsArr = [[
   2371441,
   2371439,
 ]]
-
 const domains = [
   'adspublisher',
   'reine',
@@ -327,7 +326,7 @@ const launch = async (loopcount, loopcount2, retry) => {
   main(sites[count])
 }
 
-const countMulti = 0
+let countMulti = 0
 
 const multi = () => {
   if (countMulti === domains.length) { return }
