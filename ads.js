@@ -306,7 +306,7 @@ const launch = async (loopcount, loopcount2, retry) => {
           launch(loopcount, loopcount2 + 1)
         }
         else if (loopcount + 5 < urls.length) {
-          launch(loopcount + 5, 0)
+          // launch(loopcount + 5, 0)
         }
       }, 1000 * 10);
 
@@ -350,6 +350,11 @@ const multi = () => {
   launch(2, 0)
   launch(3, 0)
   launch(4, 0)
+  launch(5, 0)
+  launch(6, 0)
+  launch(7, 0)
+  launch(8, 0)
+  launch(9, 0)
 
   const inter = setInterval(() => {
     if (over) { return clearInterval(inter) }
