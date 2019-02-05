@@ -242,7 +242,7 @@ const launch = async (loopcount, loopcount2, retry) => {
   const tmp = 'save/' + Date.now() + Math.random()
   fs.ensureDir(tmp + '/Default', async (err) => {
     if (err !== null) {
-      console.log(err) // => null
+      console.log(err)
     }
 
     await fs.copy('Preferences', tmp + '/Default/Preferences')
