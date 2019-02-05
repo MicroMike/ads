@@ -314,7 +314,7 @@ const launch = async (loopcount, loopcount2, retry) => {
         else if (loopcount + 5 < urls.length) {
           // launch(loopcount + 5, 0)
         }
-      }, 1000 * 10);
+      }, 1000 * 3);
 
     }
     catch (e) {
