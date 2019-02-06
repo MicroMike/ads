@@ -291,7 +291,7 @@ const multi = (index) => {
 
 fs.remove('save', async (err) => {
   logTime()
-  for (let i = 0; i < domains.lenght; i++) {
+  for (let i = 0; i < 3; i++) {
     multi(i)
   }
 })
