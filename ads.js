@@ -3,6 +3,7 @@ const fs = require('fs-extra')
 var shell = require('shelljs');
 
 process.setMaxListeners(Infinity)
+console.log(process.env.npm_config_argv)
 const startTo = Number(JSON.parse(process.env.npm_config_argv).remain[0])
 
 const adsArr = [[
