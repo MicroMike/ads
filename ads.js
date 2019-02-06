@@ -260,6 +260,9 @@ const multi = (index) => {
           if (loopcount2 + 1 < ads.length) {
             launch(loopcount, loopcount2 + 1)
           }
+          else {
+            logTime()
+          }
           await adPage.close()
         }, 1000 * 5);
       }

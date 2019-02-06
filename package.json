@@ -12,6 +12,7 @@
   "scripts": {
     "m": "UA=mobile node ads",
     "w": "node ads",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
