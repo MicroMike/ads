@@ -451,10 +451,10 @@ const multi = (index) => {
 }
 
 const loop = async () => {
-  const disconnect = shell.exec('expressvpn disconnect').code
-  const reconnect = shell.exec('expressvpn connect ' + vpn[vpncount++]).code
+  shell.exec('expressvpn disconnect', { silent: true })
+  const reconnect = shell.exec('expressvpn connect ' + vpn[vpncount++], { silent: true })
 
-  if (disconnect || reconnect) {
+  if (/Unable/.test(reconnect.stderr) || /Unable/.test(reconnect.stdout)) {
     loop()
     return
   }
