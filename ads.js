@@ -452,16 +452,16 @@ const multi = (index) => {
 
 const loop = async () => {
   const disconnect = shell.exec('expressvpn disconnect').code
-  const reconnect = shell.exec('expressvpn connect ' + vpn[vpncount]).code
+  const reconnect = shell.exec('expressvpn connect ' + vpn[vpncount++]).code
 
   if (disconnect || reconnect) {
     loop()
     return
   }
 
-  console.log('Start: ' + vpn[vpncount])
+  console.log('Start: ' + vpn[vpncount - 1])
+
   count = 0
-  vpncount++
   logTime()
 
   fs.remove('save', async (err) => {
