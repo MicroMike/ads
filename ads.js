@@ -3,6 +3,7 @@ const fs = require('fs-extra')
 var shell = require('shelljs');
 
 process.setMaxListeners(Infinity)
+const startTo = Number(JSON.parse(process.env.npm_config_argv).remain[0])
 
 const adsArr = [[
   2356624,
@@ -386,7 +387,7 @@ const vpn = [
 ]
 
 let count = 9
-let vpncount = 0
+let vpncount = startTo || 0
 
 const multi = (index) => {
   const ads = adsArr[index]
@@ -450,8 +451,8 @@ const multi = (index) => {
 }
 
 const loop = async () => {
-  const disconnect = shell.exec('expressvpn disconnect &> /dev/null').code
-  const reconnect = shell.exec('expressvpn connect ' + vpn[vpncount++] + ' &> /dev/null').code
+  const disconnect = shell.exec('expressvpn disconnect', { silent: true }).code
+  const reconnect = shell.exec('expressvpn connect ' + vpn[vpncount++], { silent: true }).code
 
   if (disconnect || reconnect) {
     loop()
