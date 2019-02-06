@@ -428,7 +428,7 @@ const multi = (index) => {
           if (loopcount2 + 1 < ads.length) {
             launch(loopcount, loopcount2 + 1)
           }
-          else if (++count === 9) {
+          else if (++count === 6) {
             loop()
           }
           await adPage.close()
@@ -442,7 +442,7 @@ const multi = (index) => {
   }
 
   let temp
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < 2; i++) {
     let id = rand(10)
     while (id === temp) { id = rand(10) }
     launch(id, 0)
