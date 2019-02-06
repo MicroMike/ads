@@ -3,9 +3,6 @@ const fs = require('fs-extra')
 
 process.setMaxListeners(Infinity)
 
-const sites = [
-  986200,
-]
 const adsArr = [[
   2356624,
   2356622,
@@ -56,16 +53,6 @@ const logTime = () => {
 
 const rand = (max, min) => {
   return Math.floor(Math.random() * Math.floor(max) + (typeof min !== 'undefined' ? min : 0));
-}
-
-let tempUrl
-const url = () => {
-  let newUrl = urls[rand(urls.length)]
-  while (newUrl === tempUrl) {
-    newUrl = urls[rand(urls.length)]
-  }
-  tempUrl = newUrl
-  return newUrl
 }
 
 const ua = process.env.UA === 'mobile'
@@ -268,9 +255,6 @@ const multi = (index) => {
           if (loopcount2 + 1 < ads.length) {
             launch(loopcount, loopcount2 + 1)
           }
-          else {
-            logTime()
-          }
           await adPage.close()
         }, 1000 * 5);
       }
@@ -298,4 +282,8 @@ fs.remove('save', async (err) => {
 
 process.on('SIGINT', function (code) {
   over = true
+});
+
+process.on('exit', function (code) {
+  logTime()
 });
