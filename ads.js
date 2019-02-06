@@ -206,54 +206,6 @@ const newPage = async (userDataDir) => {
   return page;
 }
 
-const clickAds = async (links, nb) => {
-  const href = links[nb]
-  if (href) {
-    await mainPage.gotoUrl(href)
-  }
-  else {
-    await mainPage.close()
-    return
-  }
-
-  await mainPage.waitFor(2000 + rand(2000))
-  const url = await mainPage.evaluate(() => {
-    return document.querySelector('.input-copy__textarea') && document.querySelector('.input-copy__textarea').innerHTML.split('src="')[1].split('" data')[0]
-  })
-  console.log(url)
-  if (url) {
-    const adPage = await newPage()
-
-    adPage.on('close', () => {
-      clickAds(links, ++nb)
-    })
-
-    try {
-      await adPage.gotoUrl('https://adspublisher.herokuapp.com/')
-      await adPage.addScriptTag({
-        url
-      })
-      await mainPage.waitFor(2000 + rand(2000))
-      await adPage.evaluate(() => {
-        document.querySelector('iframe').contentDocument.querySelector('#A button + button') && document.querySelector('iframe').contentDocument.querySelector('#A button + button').onclick()
-      })
-    }
-    catch (e) { }
-  }
-  else {
-    clickAds(links, ++nb)
-  }
-}
-
-const main = async (siteId) => {
-  await mainPage.gotoUrl('https://publishers.propellerads.com/#/pub/sites/site/' + siteId)
-  await mainPage.waitFor(2000 + rand(2000))
-  await mainPage.select('.site__zones-type select', 'string:pusherpps')
-  await mainPage.waitFor(2000 + rand(2000))
-  let links = await mainPage.get('.site__zone-tag .site__zone-action')
-  clickAds(links, 0)
-}
-
 const urls = [
   '//newhigee.net/ntfc.php?p=*&tco=1',
   '//boacheeb.com/ntfc.php?p=*&tco=1',
@@ -267,112 +219,73 @@ const urls = [
   '//cimoghuk.net/ntfc.php?p=*&tco=1',
 ]
 
-const launch = async (loopcount, loopcount2, retry) => {
-  const tmp = 'save/' + 1 + Math.random()
-  fs.ensureDir(tmp + '/Default', async (err) => {
-    if (err !== null) {
-      console.log(err)
-    }
+const multi = (index) => {
+  const ads = adsArr[index]
+  const domain = domains[index]
 
-    await fs.copy('Preferences', tmp + '/Default/Preferences')
+  const launch = async (loopcount, loopcount2, retry) => {
+    const tmp = 'save/' + 1 + Math.random()
+    fs.ensureDir(tmp + '/Default', async (err) => {
+      if (err !== null) {
+        console.log(err)
+      }
 
-    const adPage = await newPage(tmp)
+      await fs.copy('Preferences', tmp + '/Default/Preferences')
 
-    try {
-      await adPage.gotoUrl('https://' + domain + '.herokuapp.com/')
-      await adPage.addScriptTag({
-        url: urls[loopcount].replace('*', ads[loopcount2])
-      })
-      await adPage.wfs('iframe')
-      const el = await adPage.evaluate(() => {
-        const el = document.querySelector('iframe').contentDocument.querySelector('#A button + button')
-        document.querySelector('iframe').contentDocument.querySelector('#A button + button') && document.querySelector('iframe').contentDocument.querySelector('#A button + button').onclick()
-        return !!el
-      })
+      const adPage = await newPage(tmp)
 
+      try {
+        await adPage.gotoUrl('https://' + domain + '.herokuapp.com/')
+        await adPage.addScriptTag({
+          url: urls[loopcount].replace('*', ads[loopcount2])
+        })
+        await adPage.wfs('iframe')
+        const el = await adPage.evaluate(() => {
+          const el = document.querySelector('iframe').contentDocument.querySelector('#A button + button')
+          document.querySelector('iframe').contentDocument.querySelector('#A button + button') && document.querySelector('iframe').contentDocument.querySelector('#A button + button').onclick()
+          return !!el
+        })
 
+        if (!el) {
+          console.log(loopcount, loopcount2)
+          launch(loopcount, loopcount2, true)
+          await adPage.close()
+          return
+        }
 
-      if (!el) {
-        console.log(loopcount, loopcount2)
-        await adPage.close()
+        if (retry) {
+          console.log(loopcount, loopcount2, 'ok')
+        }
+
+        success++
+
+        setTimeout(async () => {
+          if (loopcount2 + 1 < ads.length) {
+            launch(loopcount, loopcount2 + 1)
+          }
+          await adPage.close()
+        }, 1000 * 5);
+      }
+      catch (e) {
+        console.log(e)
         launch(loopcount, loopcount2, true)
-        return
       }
-
-      if (retry) {
-        console.log(loopcount, loopcount2, 'ok')
-      }
-
-      success++
-setTimeout(async() =>{
-if (loopcount2 + 1 < ads.length) {
-      launch(loopcount, loopcount2 + 1)
-    }
-    else if (loopcount + 5 < urls.length) {
-      //launch(loopcount + 5, 0)
-    }
-      await adPage.close()
-  }, 1000 * 5);
-    }
-    catch (e) {
-      console.log(e)
-      launch(loopcount, loopcount2, true)
-    }
-  })
-
-  return
-  mainPage = await newPage('main')
-  await mainPage.gotoUrl('https://publishers.propellerads.com/#/pub/auth')
-  const notLog = await mainPage.ext('#username')
-
-  if (notLog) {
-    await mainPage.inst('#username', 'assoune.mike@gmail.com')
-    await mainPage.inst('#password', '055625f7430@')
-    await mainPage.clk('.login__form button')
+    })
   }
 
-  main(sites[count])
-}
-
-let countMulti = 0
-
-const multi = () => {
-  if (countMulti === domains.length) {
-    logTime()
-    over = true
-    return
+  let temp
+  for (let i = 0; i < 3; i++) {
+    let id = rand(10)
+    while (id === temp) { id = rand(10) }
+    launch(id, 0)
   }
-  console.log('Launch: ' + countMulti)
-
-  ads = adsArr[countMulti]
-  domain = domains[countMulti]
-
-  countMulti++
-
-  launch(0, 0)
-  launch(1, 0)
-  launch(2, 0)
-  launch(3, 0)
-  launch(4, 0)
-  launch(5, 0)
-  launch(6, 0)
-  launch(7, 0)
-  launch(8, 0)
-  launch(9, 0)
-
-  const inter = setInterval(() => {
-    if (over) { return clearInterval(inter) }
-    if (success === 100) {
-      success = 0
-      clearInterval(inter)
-      multi()
-    }
-  }, 1000 * 10);
 }
 
 fs.remove('save', async (err) => {
   logTime()
-  multi()
+  for (let i = 0; i < 2; i++) {
+    multi(i)
+  }
 })
 
 process.on('SIGINT', function (code) {
