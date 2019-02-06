@@ -43,7 +43,7 @@ const adsArr = [[
 const domains = [
   'adspublisher',
   'reine',
-  'yohannb'
+  'yohannb',
 ]
 
 let over = false
