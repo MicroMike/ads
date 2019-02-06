@@ -451,18 +451,21 @@ const multi = (index) => {
 }
 
 const loop = async () => {
+  const ip = vpn[vpncount]
   shell.exec('expressvpn disconnect', { silent: true })
-  const reconnect = shell.exec('expressvpn connect ' + vpn[vpncount++], { silent: true })
+  const reconnect = shell.exec('expressvpn connect ' + ip, { silent: true })
+
+  logTime()
+  console.log('Start: ' + ip)
+  vpncount++
 
   if (/Unable/.test(reconnect.stderr) || /Unable/.test(reconnect.stdout)) {
+    console.log('Fail: ' + ip)
     loop()
     return
   }
 
-  console.log('Start: ' + vpn[vpncount - 1])
-
   count = 0
-  logTime()
 
   fs.remove('save', async (err) => {
     for (let i = 0; i < 3; i++) {
