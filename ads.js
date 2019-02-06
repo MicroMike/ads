@@ -441,14 +441,13 @@ const multi = (index) => {
           console.log(loopcount, loopcount2, 'ok')
         }
 
-        if (loopcount2 + 1 < ads.length) {
-          launch(loopcount, loopcount2 + 1)
-        }
-        else if (++count === nbDomains * nbUrl) {
-          loop()
-        }
-
         setTimeout(async () => {
+          if (loopcount2 + 1 < ads.length) {
+            launch(loopcount, loopcount2 + 1)
+          }
+          else if (++count === nbDomains * nbUrl) {
+            loop()
+          }
           await adPage.close()
         }, 2600);
       }
