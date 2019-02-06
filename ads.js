@@ -103,8 +103,7 @@ const newPage = async (userDataDir) => {
       await page.goto(url, { timeout: 1000 * 60 * 5, waitUntil: 'domcontentloaded' })
       return true
     } catch (error) {
-      throw 'error connect ' + account
-      return false
+      throw 'error connect'
     }
   }
 
@@ -144,7 +143,7 @@ const newPage = async (userDataDir) => {
       return true
     }
     catch (e) {
-      console.log('Click error ' + selector, account, 'exist :' + exist)
+      console.log('Click error ' + selector, 'exist :' + exist)
       return false
     }
   }
@@ -161,7 +160,7 @@ const newPage = async (userDataDir) => {
       return true
     }
     catch (e) {
-      console.log('Justclick ' + selector, account)
+      console.log('Justclick ' + selector)
     }
 
   }
@@ -180,7 +179,7 @@ const newPage = async (userDataDir) => {
       return true
     }
     catch (e) {
-      console.log('Insert error ' + selector, account)
+      console.log('Insert error ' + selector)
     }
   }
 
@@ -198,7 +197,7 @@ const newPage = async (userDataDir) => {
       return links
     }
     catch (e) {
-      console.log('Click error ' + selector, account, 'exist :' + exist)
+      console.log('Click error ' + selector, 'exist :' + exist)
       return false
     }
   }
@@ -256,8 +255,6 @@ const multi = (index) => {
         if (retry) {
           console.log(loopcount, loopcount2, 'ok')
         }
-
-        success++
 
         setTimeout(async () => {
           if (loopcount2 + 1 < ads.length) {
