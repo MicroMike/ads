@@ -386,6 +386,9 @@ const vpn = [
   'bnbr',
 ]
 
+const nbUrl = 2
+const nbDomains = 3
+
 let count = 9
 let vpncount = startTo || 0
 
@@ -425,13 +428,14 @@ const multi = (index) => {
           console.log(loopcount, loopcount2, 'ok')
         }
 
+        if (loopcount2 + 1 < ads.length) {
+          launch(loopcount, loopcount2 + 1)
+        }
+        else if (++count === nbDomains * nbUrl) {
+          loop()
+        }
+
         setTimeout(async () => {
-          if (loopcount2 + 1 < ads.length) {
-            launch(loopcount, loopcount2 + 1)
-          }
-          else if (++count === 6) {
-            loop()
-          }
           await adPage.close()
         }, 2600);
       }
@@ -443,7 +447,7 @@ const multi = (index) => {
   }
 
   let temp
-  for (let i = 0; i < 2; i++) {
+  for (let i = 0; i < nbUrl; i++) {
     let id = rand(10)
     while (id === temp) { id = rand(10) }
     launch(id, 0)
@@ -469,7 +473,7 @@ const loop = async () => {
   count = 0
 
   fs.remove('save', async (err) => {
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < nbDomains; i++) {
       multi(i)
     }
   })
