@@ -28,16 +28,24 @@ const adsArr = [[
   2371443,
   2371441,
   2371439,
+], [
+  2373832,
+  2373830,
+  2373828,
+  2373826,
+  2373824,
+  2373822,
+  2373820,
+  2373818,
+  2373816,
+  2373814,
 ]]
 const domains = [
   'adspublisher',
   'reine',
+  'yohannb'
 ]
-let count = 0
-let success = 0
-let mainPage
-let ads
-let domain
+
 let over = false
 const CRX_PATH = 'C:\\Users\\mike\\workspace\\ads\\ext\\Extensions'
 
