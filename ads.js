@@ -450,8 +450,8 @@ const multi = (index) => {
 }
 
 const loop = async () => {
-  const disconnect = shell.exec('expressvpn disconnect').code
-  const reconnect = shell.exec('expressvpn connect ' + vpn[vpncount++]).code
+  const disconnect = shell.exec('expressvpn disconnect &> /dev/null').code
+  const reconnect = shell.exec('expressvpn connect ' + vpn[vpncount++] + ' &> /dev/null').code
 
   if (disconnect || reconnect) {
     loop()
