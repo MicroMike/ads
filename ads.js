@@ -452,11 +452,12 @@ const multi = (index) => {
 
 const loop = async () => {
   const ip = vpn[vpncount]
+  logTime()
+  console.log('Start: ' + ip)
+
   shell.exec('expressvpn disconnect', { silent: true })
   const reconnect = shell.exec('expressvpn connect ' + ip, { silent: true })
 
-  logTime()
-  console.log('Start: ' + ip)
   vpncount++
 
   if (/Unable/.test(reconnect.stderr) || /Unable/.test(reconnect.stdout)) {
