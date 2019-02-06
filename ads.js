@@ -1,5 +1,6 @@
 const puppeteer = require('puppeteer');
 const fs = require('fs-extra')
+var shell = require('shelljs');
 
 process.setMaxListeners(Infinity)
 
@@ -213,6 +214,180 @@ const urls = [
   '//cimoghuk.net/ntfc.php?p=*&tco=1',
 ]
 
+const vpn = [
+  'denu',
+  'defr1',
+  'defr2',
+  'deda',
+  'nlth',
+  'nlam',
+  'nlro',
+  'ukdo',
+  'ukel',
+  'ukbe',
+  'uklo',
+  'ukke',
+  'ukbe2',
+  'ukwe',
+  'usny',
+  'uswd',
+  'uswd2',
+  'usnj1',
+  'ussf',
+  'usch',
+  'usda',
+  'usmi',
+  'usla3',
+  'usla2',
+  'usnj3',
+  'usse',
+  'usmi2',
+  'usde',
+  'ussl',
+  'uskc',
+  'usta1',
+  'usph',
+  'usla1',
+  'usvi',
+  'usny2',
+  'usnj2',
+  'usho',
+  'usda2',
+  'usmi',
+  'usbo',
+  'usla',
+  'ussj',
+  'usat',
+  'usla5',
+  'usla4',
+  'ussf',
+  'ussf2',
+  'frst',
+  'frpa1',
+  'frpa2',
+  'itmi',
+  'itco',
+  'se1',
+  'se2',
+  'ch2',
+  'ch1',
+  'ro1',
+  'cato',
+  'cava',
+  'cato2',
+  'camo',
+  'im1',
+  'mx1',
+  'br2',
+  'br1',
+  'pa1',
+  'esma',
+  'esba',
+  'tr1',
+  'ie1',
+  'cl1',
+  'ar1',
+  'cr1',
+  'co1',
+  've1',
+  'ec1',
+  'is1',
+  'no1',
+  'dk1',
+  'be1',
+  'fi1',
+  'gr1',
+  'pt1',
+  'at1',
+  'ru1',
+  'am1',
+  'pl1',
+  'lt1',
+  'lv1',
+  'ee1',
+  'cz1',
+  'ad1',
+  'inmu1',
+  'in1',
+  'inch',
+  'za1',
+  'me1',
+  'ba1',
+  'lu1',
+  'hu1',
+  'bg1',
+  'by1',
+  'ua1',
+  'mt1',
+  'li1',
+  'cy1',
+  'sgju',
+  'sgcb',
+  'sgmb',
+  'hk2',
+  'hk1',
+  'hk3',
+  'hk4',
+  'hk6',
+  'hk5',
+  'jpto3',
+  'jpto2',
+  'jpto1',
+  'aume',
+  'ausy',
+  'ausy3',
+  'aupe',
+  'aubr',
+  'ausy2',
+  'krsk2',
+  'krsk',
+  'ph1',
+  'my1',
+  'al1',
+  'hr1',
+  'si1',
+  'sk1',
+  'mc1',
+  'il1',
+  'lk1',
+  'pk1',
+  'kz1',
+  'th1',
+  'id1',
+  'nz1',
+  'tw3',
+  'twvh',
+  'twvh2',
+  'vn1',
+  'mo1',
+  'kh1',
+  'mn1',
+  'lala',
+  'mm1',
+  'np1',
+  'gt1',
+  'pe1',
+  'uy1',
+  'bs1',
+  'je1',
+  'mk1',
+  'mdmo',
+  'rs1',
+  'ge1',
+  'az1',
+  'kg1',
+  'eg1',
+  'ke1',
+  'dz1',
+  'uz1',
+  'bd1',
+  'bt1',
+  'bnbr',
+]
+
+let count = 9
+let vpncount = 0
+
 const multi = (index) => {
   const ads = adsArr[index]
   const domain = domains[index]
@@ -220,9 +395,7 @@ const multi = (index) => {
   const launch = async (loopcount, loopcount2, retry) => {
     const tmp = 'save/' + 1 + Math.random()
     fs.ensureDir(tmp + '/Default', async (err) => {
-      if (err !== null) {
-        console.log(err)
-      }
+      if (err !== null) { console.log(err) }
 
       await fs.copy('Preferences', tmp + '/Default/Preferences')
 
@@ -255,8 +428,11 @@ const multi = (index) => {
           if (loopcount2 + 1 < ads.length) {
             launch(loopcount, loopcount2 + 1)
           }
+          else if (++count === 9) {
+            loop()
+          }
           await adPage.close()
-        }, 1000 * 5);
+        }, 2600);
       }
       catch (e) {
         console.log(e)
@@ -273,17 +449,33 @@ const multi = (index) => {
   }
 }
 
-fs.remove('save', async (err) => {
-  logTime()
-  for (let i = 0; i < 3; i++) {
-    multi(i)
+const loop = async () => {
+  const disconnect = shell.exec('expressvpn disconnect').code
+  const reconnect = shell.exec('expressvpn connect ' + vpn[vpncount++]).code
+
+  if (disconnect || reconnect) {
+    loop()
+    return
   }
-})
+
+  count = 0
+  logTime()
+
+  console.log('Start: ' + vpn[vpncount])
+  fs.remove('save', async (err) => {
+    for (let i = 0; i < 3; i++) {
+      multi(i)
+    }
+  })
+}
+
+loop()
 
 process.on('SIGINT', function (code) {
   over = true
 });
 
 process.on('exit', function (code) {
+  over = true
   logTime()
 });
