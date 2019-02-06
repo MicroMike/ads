@@ -50,6 +50,7 @@ const adsArr = [[
   2374977,
   2374975,
 ]]
+
 const domains = [
   'adspublisher',
   'reine',
@@ -399,7 +400,7 @@ const vpn = [
 ]
 
 const nbUrl = 2
-const nbDomains = 3
+const nbDomains = domains.length
 
 let count = 9
 let vpncount = startTo || 0
