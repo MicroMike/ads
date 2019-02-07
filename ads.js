@@ -300,6 +300,7 @@ const launch = async (retry) => {
       browser = await puppeteer.launch(params);
     }
     catch (e) {
+      console.log('create')
       count--
       return
     }
@@ -441,7 +442,9 @@ const launch = async (retry) => {
       try {
         await page.close()
       }
-      catch (e) { }
+      catch (e) {
+        console.log('close')
+      }
     }
     catch (e) {
       count--
