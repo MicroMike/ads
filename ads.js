@@ -414,6 +414,7 @@ const launch = async (retry) => {
   const domainId = rand(domains.length)
   const domain = domains[domainId]
   const ads = adsArr[domainId]
+  console.log(adPage)
   let adPage
 
   fs.ensureDir(tmp + '/Default', async (err) => {
