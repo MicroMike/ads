@@ -485,7 +485,7 @@ const inter = setInterval(() => {
 
 fs.remove('save', async (err) => {
   loop()
-  setTimeout(() => {
+  setTimeout(async () => {
     launch()
   }, 1000);
 })
