@@ -114,7 +114,7 @@ const newPage = async (userDataDir) => {
 
   page.gotoUrl = async (url) => {
     try {
-      await page.goto(url, { timeout: 1000 * 60 * 5 })
+      await page.goto(url, { timeout: 1000 * 60 * 5, waitUntil: 'domcontentloaded' })
       return true
     } catch (error) {
       throw 'error connect'
