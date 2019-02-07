@@ -458,6 +458,7 @@ const launch = async (retry) => {
       }, 1000 * 10 + rand(1000 * 30));
     }
     catch (e) {
+      console.log(domain, e)
       count--
       launch()
 
