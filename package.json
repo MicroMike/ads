@@ -12,7 +12,7 @@
   },
   "scripts": {
     "m": "UA=mobile node ads",
-    "w": "node ads",
+    "w": "git pull && clear && node ads",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
