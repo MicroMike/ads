@@ -450,7 +450,7 @@ const launch = async (retry) => {
       setTimeout(async () => {
         count--
         await adPage.close()
-      }, 1000 * 10 + rand(1000 * 30));
+      }, 1000 * 10 + rand(1000 * 20));
     }
     catch (e) {
       console.log(domain, e)
