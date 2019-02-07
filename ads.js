@@ -265,6 +265,11 @@ const vpn = [
 let count = 0
 
 const launch = async (retry) => {
+
+  if (over) { return }
+  if (count > 20) { return }
+  count++
+
   const tmp = 'save/' + 1 + Math.random()
   const params = {
     executablePath: '/usr/bin/google-chrome-stable',
@@ -403,10 +408,6 @@ const launch = async (retry) => {
     }
   }
 
-  if (over) { return }
-  if (count > 20) { return }
-  if (!retry) { count++ }
-
   const domainId = rand(domains.length)
   const domain = domains[domainId]
   const ads = adsArr[domainId]
@@ -436,6 +437,7 @@ const launch = async (retry) => {
       }
 
       await page.waitFor(1000 * 10 + rand(1000 * 20))
+      await page.goto('about:blank')
       await page.close()
       count--
     }
