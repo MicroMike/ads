@@ -485,9 +485,10 @@ const inter = setInterval(() => {
 
 fs.remove('save', async (err) => {
   loop()
-  setTimeout(async () => {
+  const inter = setInterval(() => {
+    if (over) { return clearInterval(inter) }
     launch()
-  }, 1000);
+  }, 2600);
 })
 
 process.on('SIGINT', function (code) {
