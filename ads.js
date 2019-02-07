@@ -264,17 +264,6 @@ const vpn = [
 
 let count = 0
 
-const create = async (params) => {
-  try {
-    const browser = await puppeteer.launch(params);
-    return browser
-  }
-  catch (e) {
-    const browser = await create(params);
-    return browser
-  }
-}
-
 const launch = async (retry) => {
   if (over) { return }
   if (count > 20) { return }
@@ -310,7 +299,7 @@ const launch = async (retry) => {
     // params.executablePath = "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe"
 
     try {
-      browser = await create(params);
+      browser = await puppeteer.launch(params);
     }
     catch (e) {
       console.log('create')
