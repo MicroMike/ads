@@ -413,7 +413,10 @@ const vpn = [
 let count = 0
 
 const launch = async (retry) => {
-  if (count > 20) { return }
+  if (count > 20) {
+    launch()
+    return
+  }
   if (!retry) { count++ }
 
   const tmp = 'save/' + 1 + Math.random()
@@ -426,6 +429,8 @@ const launch = async (retry) => {
     if (err !== null) { console.log(err) }
 
     await fs.copy(rand(2) ? 'Preferences' : 'PreferencesNo', tmp + '/Default/Preferences')
+
+    launch()
 
     try {
       adPage = await newPage(tmp)
@@ -446,10 +451,9 @@ const launch = async (retry) => {
         console.log(domain, 'ok')
       }
 
-      setTimeout(async () => {
-        count--
-        launch()
+      count--
 
+      setTimeout(async () => {
         await adPage.close()
       }, 1000 * 10 + rand(1000 * 30));
     }
