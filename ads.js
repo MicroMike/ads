@@ -294,6 +294,8 @@ const launch = async (retry) => {
       userDataDir: tmp,
       headless: false,
       args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
         //   `--disable-extensions-except=${CRX_PATH}`,
         //   `--load-extension=${CRX_PATH}`,
         '--disable-translate',
