@@ -425,9 +425,7 @@ const launch = async (retry) => {
   fs.ensureDir(tmp + '/Default', async (err) => {
     if (err !== null) { console.log(err) }
 
-    if (rand(2)) {
-      await fs.copy('Preferences', tmp + '/Default/Preferences')
-    }
+    await fs.copy(rand(2) ? 'Preferences' : 'PreferencesNo', tmp + '/Default/Preferences')
 
     try {
       adPage = await newPage(tmp)
@@ -454,8 +452,8 @@ const launch = async (retry) => {
       }, 1000 * 60 + rand(1000 * 60 * 2));
     }
     catch (e) {
+      console.log(domain, e)
       try {
-        console.log(domain)
         launch(true)
         await adPage.close()
       }
