@@ -63,7 +63,7 @@ const CRX_PATH = 'C:\\Users\\mike\\workspace\\ads\\ext\\Extensions'
 
 const logTime = () => {
   const date = new Date
-  console.log(date.getUTCHours() + 1 + 'H' + date.getUTCMinutes())
+  return date.getUTCHours() + 1 + 'H' + date.getUTCMinutes()
 }
 
 const rand = (max, min) => {
@@ -417,7 +417,7 @@ const multi = (index) => {
   const ads = adsArr[index]
   const domain = domains[index]
 
-  const launch = async (loopcount, loopcount2, retry) => {
+  const launch = async (loopcount2 = 0, retry) => {
     const tmp = 'save/' + 1 + Math.random()
     let adPage
 
@@ -430,7 +430,7 @@ const multi = (index) => {
         adPage = await newPage(tmp)
         await adPage.gotoUrl('https://' + domain + '.herokuapp.com/')
         await adPage.addScriptTag({
-          url: urls[loopcount].replace('*', ads[loopcount2])
+          url: urls[rand(urls.length)].replace('*', ads[loopcount2])
         })
         await adPage.wfs('iframe')
         const el = await adPage.evaluate(() => {
@@ -444,23 +444,23 @@ const multi = (index) => {
         }
 
         if (retry) {
-          console.log(domain, loopcount, loopcount2, 'ok')
+          console.log(domain, loopcount2, 'ok')
         }
 
         setTimeout(async () => {
-          if (loopcount2 + 1 < ads.length) {
-            launch(loopcount, loopcount2 + 1)
+          if (++loopcount2 < ads.length) {
+            launch(loopcount2)
           }
           else if (++count === nbDomains * nbUrl) {
             loop()
           }
           await adPage.close()
-        }, 2600);
+        }, rand(3000));
       }
       catch (e) {
         try {
-          console.log(domain, loopcount, loopcount2)
-          launch(loopcount, loopcount2, true)
+          console.log(domain, loopcount2)
+          launch(loopcount2, true)
           await adPage.close()
         }
         catch (e) { }
@@ -468,18 +468,16 @@ const multi = (index) => {
     })
   }
 
-  let temp
   for (let i = 0; i < nbUrl; i++) {
-    let id = rand(10)
-    while (id === temp) { id = rand(10) }
-    launch(id, 0)
+    setTimeout(() => {
+      launch()
+    }, rand(3000));
   }
 }
 
 const loop = async () => {
   const ip = vpn[vpncount]
-  logTime()
-  console.log('Start: ' + ip)
+  console.log('Start: ' + ip, logTime())
 
   shell.exec('expressvpn disconnect', { silent: true })
   const reconnect = shell.exec('expressvpn connect ' + ip, { silent: true })
@@ -509,5 +507,5 @@ process.on('SIGINT', function (code) {
 
 process.on('exit', function (code) {
   over = true
-  logTime()
+  console.log(logTime())
 });
