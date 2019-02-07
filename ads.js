@@ -324,7 +324,7 @@ const launch = async (retry) => {
       }
     }
 
-    page.wfs = async (selector, timeout = 1000 * 60 * 5, retry = false) => {
+    page.wfs = async (selector, timeout = 1000 * 60 * 3, retry = false) => {
       try {
         await page.waitForSelector(selector, { timeout })
         return true
