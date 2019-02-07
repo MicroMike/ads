@@ -413,6 +413,7 @@ const vpn = [
 let count = 0
 
 const launch = async (retry) => {
+  if (over) { return }
   if (count > 20) {
     launch()
     return
