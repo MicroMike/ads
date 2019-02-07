@@ -433,7 +433,6 @@ const launch = async (retry) => {
 
     try {
       adPage = await newPage(tmp)
-      launch()
       await adPage.gotoUrl('https://' + domain + '.herokuapp.com/')
       await adPage.addScriptTag({
         url: urls[rand(urls.length)].replace('*', ads[rand(ads.length)])
@@ -456,6 +455,8 @@ const launch = async (retry) => {
       setTimeout(async () => {
         await adPage.close()
       }, 1000 * 10 + rand(1000 * 30));
+
+      launch()
     }
     catch (e) {
       console.log(domain, e)
