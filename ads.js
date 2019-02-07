@@ -487,10 +487,10 @@ const inter = setInterval(() => {
   loop()
 }, 1000 * 60 * 5 + rand(1000 * 60 * 5));
 
-launch()
 
 fs.remove('save', async (err) => {
   loop()
+  launch()
 })
 
 process.on('SIGINT', function (code) {
