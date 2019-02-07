@@ -428,6 +428,7 @@ const launch = async (retry) => {
         url: urls[rand(urls.length)].replace('*', ads[rand(ads.length)])
       })
       await adPage.wfs('iframe')
+      await adPage.waitFor(1000 * 5 + rand(1000 * 5))
       const el = await adPage.evaluate(() => {
         const el = document.querySelector('iframe').contentDocument.querySelector('#A button + button')
         document.querySelector('iframe').contentDocument.querySelector('#A button + button') && document.querySelector('iframe').contentDocument.querySelector('#A button + button').onclick()
@@ -440,8 +441,8 @@ const launch = async (retry) => {
         console.log(domain, 'ok')
       }
 
-      count--
       await adPage.waitFor(1000 * 10 + rand(1000 * 20))
+      count--
       await adPage.close()
     }
     catch (e) {
