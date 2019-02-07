@@ -452,8 +452,7 @@ const launch = async (retry) => {
       }, 1000 * 10 + rand(1000 * 30));
     }
     catch (e) {
-      console.log(domain)
-      launch(true)
+      count--
       try {
         await adPage.close()
       }
@@ -483,7 +482,7 @@ const inter = setInterval(() => {
 const inter2 = setInterval(() => {
   if (over) { return clearInterval(inter2) }
   launch()
-}, rand(1000 * 5));
+}, rand(1000));
 
 fs.remove('save', async (err) => {
   loop()
