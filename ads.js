@@ -454,7 +454,7 @@ const multi = (index) => {
       }
       catch (e) {
         try {
-          console.log('error', loopcount, loopcount2)
+          console.log(domain, loopcount, loopcount2)
           launch(loopcount, loopcount2, true)
           await adPage.close()
         }
