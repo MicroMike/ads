@@ -446,7 +446,7 @@ const launch = async (retry) => {
       await adPage.close()
     }
     catch (e) {
-      console.log(domain)
+      console.log(domain,e)
       count--
 
       try {
