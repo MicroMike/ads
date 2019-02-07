@@ -430,10 +430,9 @@ const launch = async (retry) => {
 
     await fs.copy(rand(2) ? 'Preferences' : 'PreferencesNo', tmp + '/Default/Preferences')
 
-    launch()
-
     try {
       adPage = await newPage(tmp)
+      launch()
       await adPage.gotoUrl('https://' + domain + '.herokuapp.com/')
       await adPage.addScriptTag({
         url: urls[rand(urls.length)].replace('*', ads[rand(ads.length)])
