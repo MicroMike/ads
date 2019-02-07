@@ -334,7 +334,7 @@ const launch = async (retry) => {
         }
         else {
           await page.reload()
-          await page.wfs(selector, timeout, true)
+          await page.wfs(selector, timeout)
         }
       }
     }
