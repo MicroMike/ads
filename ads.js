@@ -450,6 +450,10 @@ const launch = async (retry) => {
     catch (e) {
       count--
       console.log(e)
+      try {
+        await page.close()
+      }
+      catch (e) { }
     }
   })
 }
