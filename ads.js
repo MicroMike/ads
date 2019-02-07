@@ -216,13 +216,6 @@ const newPage = async (userDataDir) => {
     }
   }
 
-  page.close = async () => {
-    try {
-      await page.close()
-    }
-    catch (e) { }
-  }
-
   return page;
 }
 
@@ -447,10 +440,9 @@ const launch = async (retry) => {
         console.log(domain, 'ok')
       }
 
-      setTimeout(async () => {
-        count--
-        await adPage.close()
-      }, 1000 * 10 + rand(1000 * 20));
+      count--
+      await adPage.waitFor(1000 * 10 + rand(1000 * 20))
+      await adPage.close()
     }
     catch (e) {
       console.log(domain)
@@ -485,8 +477,8 @@ const inter = setInterval(() => {
 
 fs.remove('save', async (err) => {
   loop()
-  const inter = setInterval(() => {
-    if (over) { return clearInterval(inter) }
+  const inter2 = setInterval(() => {
+    if (over) { return clearInterval(inter2) }
     launch()
   }, 2600);
 })
