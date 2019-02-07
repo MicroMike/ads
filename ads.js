@@ -80,7 +80,7 @@ const ua = [
 
 const newPage = async (userDataDir) => {
   const params = {
-    executablePath: '/usr/bin/google-chrome-stable',
+    // executablePath: '/usr/bin/google-chrome-stable',
     userDataDir,
     headless: false,
     args: [
@@ -99,7 +99,7 @@ const newPage = async (userDataDir) => {
     browser = await puppeteer.launch(params);
   }
   catch (e) {
-    params.executablePath = "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe"
+    // params.executablePath = "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe"
     browser = await puppeteer.launch(params);
   }
 
