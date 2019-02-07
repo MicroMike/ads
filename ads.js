@@ -435,8 +435,11 @@ const launch = async (retry) => {
 
       await page.waitFor(1000 * 10 + rand(1000 * 20))
       await page.goto('about:blank')
-      await page.close()
       count--
+      try {
+        await page.close()
+      }
+      catch (e) { }
     }
     catch (e) {
       count--
