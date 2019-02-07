@@ -80,7 +80,7 @@ const ua = [
 
 const newPage = async (userDataDir) => {
   const params = {
-    // executablePath: '/usr/bin/google-chrome-stable',
+    executablePath: '/usr/bin/google-chrome-stable',
     userDataDir,
     headless: false,
     args: [
@@ -99,7 +99,7 @@ const newPage = async (userDataDir) => {
     browser = await puppeteer.launch(params);
   }
   catch (e) {
-    // params.executablePath = "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe"
+    params.executablePath = "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe"
     browser = await puppeteer.launch(params);
   }
 
@@ -414,7 +414,7 @@ let count = 0
 
 const launch = async (retry) => {
   if (count > 20) { return }
-  count++
+  if (!retry) { count++ }
 
   const tmp = 'save/' + 1 + Math.random()
   const domainId = rand(domains.length)
@@ -449,12 +449,12 @@ const launch = async (retry) => {
       setTimeout(async () => {
         count--
         await adPage.close()
-      }, 1000 * 60 + rand(1000 * 60 * 2));
+      }, 1000 * 10 + rand(1000 * 30));
     }
     catch (e) {
-      console.log(domain, e)
+      console.log(domain)
+      launch(true)
       try {
-        launch(true)
         await adPage.close()
       }
       catch (e) { }
