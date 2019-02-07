@@ -482,7 +482,7 @@ const inter = setInterval(() => {
 const inter2 = setInterval(() => {
   if (over) { return clearInterval(inter2) }
   launch()
-}, rand(1000));
+}, rand(1000 * 2));
 
 fs.remove('save', async (err) => {
   loop()
