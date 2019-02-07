@@ -277,7 +277,7 @@ const launch = async (retry) => {
   fs.ensureDir(tmp + '/Default', async (err) => {
     if (err !== null) { console.log(err) }
 
-    await fs.copy(rand(2) && false ? 'Preferences' : 'PreferencesNo', tmp + '/Default/Preferences')
+    await fs.copy(rand(2) ? 'Preferences' : 'PreferencesNo', tmp + '/Default/Preferences')
     const params = {
       executablePath: '/usr/bin/google-chrome-stable',
       userDataDir: tmp,
