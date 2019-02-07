@@ -265,7 +265,6 @@ const vpn = [
 let count = 0
 
 const launch = async (retry) => {
-
   if (over) { return }
   if (count > 20) { return }
   count++
@@ -466,12 +465,15 @@ const inter = setInterval(() => {
   loop()
 }, 1000 * 60 * 5 + rand(1000 * 60 * 5));
 
+const multi = async () => {
+  launch()
+}
 
 fs.remove('save', async (err) => {
   loop()
   const inter2 = setInterval(() => {
     if (over) { return clearInterval(inter2) }
-    launch()
+    multi()
   }, 2600);
 })
 
