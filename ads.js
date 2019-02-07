@@ -71,11 +71,6 @@ const rand = (max, min) => {
 }
 
 const ua = [
-  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36',
-  'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:53.0) Gecko/20100101 Firefox/53.0',
-  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.79 Safari/537.36 Edge/14.14393',
-  'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Trident/6.0; MDDCJS)',
-  'Mozilla/5.0 (compatible, MSIE 11, Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko',
   'Mozilla/5.0 (iPad; CPU OS 8_4_1 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Version/8.0 Mobile/12H321 Safari/600.1.4',
   'Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_1 like Mac OS X) AppleWebKit/603.1.30 (KHTML, like Gecko) Version/10.0 Mobile/14E304 Safari/602.1',
   'Mozilla/5.0 (Linux; Android 6.0.1; SAMSUNG SM-G570Y Build/MMB29K) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/4.0 Chrome/44.0.2403.133 Mobile Safari/537.36',
@@ -123,14 +118,14 @@ const newPage = async (userDataDir) => {
 
   page.gotoUrl = async (url) => {
     try {
-      await page.goto(url, { timeout: 1000 * 60 * 5, waitUntil: 'domcontentloaded' })
+      await page.goto(url, { timeout: 1000 * 60 * 5 })
       return true
     } catch (error) {
       throw 'error connect'
     }
   }
 
-  page.wfs = async (selector, timeout = 1000 * 60 * 3, retry = false) => {
+  page.wfs = async (selector, timeout = 1000 * 60 * 5, retry = false) => {
     try {
       await page.waitForSelector(selector, { timeout })
       return true
@@ -449,7 +444,7 @@ const multi = (index) => {
         }
 
         if (retry) {
-          console.log(loopcount, loopcount2, 'ok')
+          console.log(domain, loopcount, loopcount2, 'ok')
         }
 
         setTimeout(async () => {
@@ -459,11 +454,8 @@ const multi = (index) => {
           else if (++count === nbDomains * nbUrl) {
             loop()
           }
-        }, 2600);
-
-        setTimeout(async () => {
           await adPage.close()
-        }, rand(1000 * 60));
+        }, 2600);
       }
       catch (e) {
         try {
