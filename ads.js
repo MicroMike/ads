@@ -301,7 +301,6 @@ const launch = async (retry) => {
     }
     catch (e) {
       count--
-      launch()
       return
     }
 
