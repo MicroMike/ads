@@ -270,143 +270,6 @@ const launch = async (retry) => {
   count++
 
   const tmp = 'save/' + 1 + Math.random()
-  const params = {
-    executablePath: '/usr/bin/google-chrome-stable',
-    userDataDir: tmp,
-    headless: false,
-    args: [
-      //   `--disable-extensions-except=${CRX_PATH}`,
-      //   `--load-extension=${CRX_PATH}`,
-      '--disable-translate',
-      '--window-position=0,0',
-      '--window-size=300,300',
-      '--user-agent=' + ua[rand(ua.length)],
-    ]
-  }
-
-  let browser
-
-  try {
-    browser = await puppeteer.launch(params);
-  }
-  catch (e) {
-    params.executablePath = "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe"
-    browser = await puppeteer.launch(params);
-  }
-
-  const pages = await browser.pages()
-  const page = pages[0]
-
-  await page.evaluateOnNewDocument(() => {
-    Object.defineProperty(navigator, 'webdriver', {
-      get: () => false,
-    });
-  });
-
-  page.gotoUrl = async (url) => {
-    try {
-      await page.goto(url, { timeout: 1000 * 60 * 5, waitUntil: 'domcontentloaded' })
-      return true
-    } catch (error) {
-      throw 'error connect'
-    }
-  }
-
-  page.wfs = async (selector, timeout = 1000 * 60 * 5, retry = false) => {
-    try {
-      await page.waitForSelector(selector, { timeout })
-      return true
-    } catch (error) {
-      if (retry) {
-        throw 'Selector :' + selector + ' not found'
-      }
-      else {
-        await page.reload()
-        await page.wfs(selector, timeout, true)
-      }
-    }
-  }
-
-  page.ext = async (selector, timeout = 1000 * 10) => {
-    try {
-      await page.waitForSelector(selector, { timeout })
-      return true
-    } catch (error) {
-      return false
-    }
-  }
-
-  page.clk = async (selector) => {
-    const exist = await page.wfs(selector)
-
-    try {
-      await page.waitFor(2000 + rand(2000))
-      await page.evaluate(selector => {
-        document.querySelector(selector) && document.querySelector(selector).click()
-      }, selector)
-
-      return true
-    }
-    catch (e) {
-      console.log('Click error ' + selector, 'exist :' + exist)
-      return false
-    }
-  }
-
-  page.jClk = async (selector) => {
-    const exist = await page.ext(selector)
-    if (!exist) { return false }
-
-    try {
-      await page.waitFor(2000 + rand(2000))
-      await page.evaluate(selector => {
-        document.querySelector(selector) && document.querySelector(selector).click()
-      }, selector)
-      return true
-    }
-    catch (e) {
-      console.log('Justclick ' + selector)
-    }
-
-  }
-
-  page.inst = async (selector, text) => {
-    await page.clk(selector)
-
-    try {
-      await page.waitFor(2000 + rand(2000))
-      const elementHandle = await page.$(selector);
-      await page.evaluate(selector => {
-        document.querySelector(selector).value = ''
-      }, selector)
-      await elementHandle.type(text, { delay: 300 });
-
-      return true
-    }
-    catch (e) {
-      console.log('Insert error ' + selector)
-    }
-  }
-
-  page.get = async (selector) => {
-    const exist = await page.wfs(selector)
-
-    try {
-      await page.waitFor(2000 + rand(2000))
-      const links = await page.evaluate(selector => {
-        const list = document.querySelectorAll(selector)
-        const arr = Array.prototype.slice.call(list).map(el => el.href)
-        return arr
-      }, selector)
-
-      return links
-    }
-    catch (e) {
-      console.log('Click error ' + selector, 'exist :' + exist)
-      return false
-    }
-  }
-
   const domainId = rand(domains.length)
   const domain = domains[domainId]
   const ads = adsArr[domainId]
@@ -414,8 +277,143 @@ const launch = async (retry) => {
   fs.ensureDir(tmp + '/Default', async (err) => {
     if (err !== null) { console.log(err) }
 
-    await fs.copy(rand(2) ? 'Preferences' : 'PreferencesNo', tmp + '/Default/Preferences')
+    await fs.copy(rand(2) && false ? 'Preferences' : 'PreferencesNo', tmp + '/Default/Preferences')
+    const params = {
+      executablePath: '/usr/bin/google-chrome-stable',
+      userDataDir: tmp,
+      headless: false,
+      args: [
+        //   `--disable-extensions-except=${CRX_PATH}`,
+        //   `--load-extension=${CRX_PATH}`,
+        '--disable-translate',
+        '--window-position=0,0',
+        '--window-size=300,300',
+        '--user-agent=' + ua[rand(ua.length)],
+      ]
+    }
 
+    let browser
+
+    try {
+      browser = await puppeteer.launch(params);
+    }
+    catch (e) {
+      params.executablePath = "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe"
+      browser = await puppeteer.launch(params);
+    }
+
+    const pages = await browser.pages()
+    const page = pages[0]
+
+    await page.evaluateOnNewDocument(() => {
+      Object.defineProperty(navigator, 'webdriver', {
+        get: () => false,
+      });
+    });
+
+    page.gotoUrl = async (url) => {
+      try {
+        await page.goto(url, { timeout: 1000 * 60 * 5, waitUntil: 'domcontentloaded' })
+        return true
+      } catch (error) {
+        throw 'error connect'
+      }
+    }
+
+    page.wfs = async (selector, timeout = 1000 * 60 * 5, retry = false) => {
+      try {
+        await page.waitForSelector(selector, { timeout })
+        return true
+      } catch (error) {
+        if (retry) {
+          throw 'Selector :' + selector + ' not found'
+        }
+        else {
+          await page.reload()
+          await page.wfs(selector, timeout, true)
+        }
+      }
+    }
+
+    page.ext = async (selector, timeout = 1000 * 10) => {
+      try {
+        await page.waitForSelector(selector, { timeout })
+        return true
+      } catch (error) {
+        return false
+      }
+    }
+
+    page.clk = async (selector) => {
+      const exist = await page.wfs(selector)
+
+      try {
+        await page.waitFor(2000 + rand(2000))
+        await page.evaluate(selector => {
+          document.querySelector(selector) && document.querySelector(selector).click()
+        }, selector)
+
+        return true
+      }
+      catch (e) {
+        console.log('Click error ' + selector, 'exist :' + exist)
+        return false
+      }
+    }
+
+    page.jClk = async (selector) => {
+      const exist = await page.ext(selector)
+      if (!exist) { return false }
+
+      try {
+        await page.waitFor(2000 + rand(2000))
+        await page.evaluate(selector => {
+          document.querySelector(selector) && document.querySelector(selector).click()
+        }, selector)
+        return true
+      }
+      catch (e) {
+        console.log('Justclick ' + selector)
+      }
+
+    }
+
+    page.inst = async (selector, text) => {
+      await page.clk(selector)
+
+      try {
+        await page.waitFor(2000 + rand(2000))
+        const elementHandle = await page.$(selector);
+        await page.evaluate(selector => {
+          document.querySelector(selector).value = ''
+        }, selector)
+        await elementHandle.type(text, { delay: 300 });
+
+        return true
+      }
+      catch (e) {
+        console.log('Insert error ' + selector)
+      }
+    }
+
+    page.get = async (selector) => {
+      const exist = await page.wfs(selector)
+
+      try {
+        await page.waitFor(2000 + rand(2000))
+        const links = await page.evaluate(selector => {
+          const list = document.querySelectorAll(selector)
+          const arr = Array.prototype.slice.call(list).map(el => el.href)
+          return arr
+        }, selector)
+
+        return links
+      }
+      catch (e) {
+        console.log('Click error ' + selector, 'exist :' + exist)
+        return false
+      }
+    }
     try {
       await page.gotoUrl('https://' + domain + '.herokuapp.com/')
       await page.addScriptTag({
