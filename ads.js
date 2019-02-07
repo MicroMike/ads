@@ -410,14 +410,16 @@ const multi = (index) => {
   const domain = domains[index]
 
   const launch = async (loopcount, loopcount2, retry) => {
-    try {
-      const tmp = 'save/' + 1 + Math.random()
-      fs.ensureDir(tmp + '/Default', async (err) => {
-        if (err !== null) { console.log(err) }
+    const tmp = 'save/' + 1 + Math.random()
+    let adPage
 
-        await fs.copy('Preferences', tmp + '/Default/Preferences')
+    fs.ensureDir(tmp + '/Default', async (err) => {
+      if (err !== null) { console.log(err) }
 
-        const adPage = await newPage(tmp)
+      await fs.copy('Preferences', tmp + '/Default/Preferences')
+
+      try {
+        adPage = await newPage(tmp)
         await adPage.gotoUrl('https://' + domain + '.herokuapp.com/')
         await adPage.addScriptTag({
           url: urls[loopcount].replace('*', ads[loopcount2])
@@ -430,10 +432,7 @@ const multi = (index) => {
         })
 
         if (!el) {
-          console.log(loopcount, loopcount2)
-          launch(loopcount, loopcount2, true)
-          await adPage.close()
-          return
+          throw 'error'
         }
 
         if (retry) {
@@ -447,14 +446,21 @@ const multi = (index) => {
           else if (++count === nbDomains * nbUrl) {
             loop()
           }
+        }, 2600);
+
+        setTimeout(async () => {
           await adPage.close()
-        })
-      }, 2600);
-    }
-    catch (e) {
-      console.log(e)
-      launch(loopcount, loopcount2, true)
-    }
+        }, rand(1000 * 60));
+      }
+      catch (e) {
+        try {
+          console.log('error', loopcount, loopcount2)
+          launch(loopcount, loopcount2, true)
+          await adPage.close()
+        }
+        catch (e) { }
+      }
+    })
   }
 
   let temp
