@@ -294,12 +294,15 @@ const launch = async (retry) => {
 
     let browser
 
+    // params.executablePath = "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe"
+
     try {
       browser = await puppeteer.launch(params);
     }
     catch (e) {
-      params.executablePath = "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe"
-      browser = await puppeteer.launch(params);
+      count--
+      launch()
+      return
     }
 
     const pages = await browser.pages()
