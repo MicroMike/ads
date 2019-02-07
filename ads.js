@@ -414,7 +414,6 @@ const launch = async (retry) => {
   const domainId = rand(domains.length)
   const domain = domains[domainId]
   const ads = adsArr[domainId]
-  console.log(adPage)
   let adPage
 
   fs.ensureDir(tmp + '/Default', async (err) => {
@@ -445,14 +444,11 @@ const launch = async (retry) => {
       await adPage.waitFor(1000 * 10 + rand(1000 * 20))
       count--
       if (adPage) {
+        console.log(adPage)
         await adPage.close()
       }
     }
     catch (e) {
-      console.log(adPage)
-      console.log('close')
-      count--
-
       if (adPage) {
         await adPage.close()
       }
