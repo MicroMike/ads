@@ -410,15 +410,14 @@ const multi = (index) => {
   const domain = domains[index]
 
   const launch = async (loopcount, loopcount2, retry) => {
-    const tmp = 'save/' + 1 + Math.random()
-    fs.ensureDir(tmp + '/Default', async (err) => {
-      if (err !== null) { console.log(err) }
+    try {
+      const tmp = 'save/' + 1 + Math.random()
+      fs.ensureDir(tmp + '/Default', async (err) => {
+        if (err !== null) { console.log(err) }
 
-      await fs.copy('Preferences', tmp + '/Default/Preferences')
+        await fs.copy('Preferences', tmp + '/Default/Preferences')
 
-      const adPage = await newPage(tmp)
-
-      try {
+        const adPage = await newPage(tmp)
         await adPage.gotoUrl('https://' + domain + '.herokuapp.com/')
         await adPage.addScriptTag({
           url: urls[loopcount].replace('*', ads[loopcount2])
@@ -449,13 +448,13 @@ const multi = (index) => {
             loop()
           }
           await adPage.close()
-        }, 2600);
-      }
-      catch (e) {
-        console.log(e)
-        launch(loopcount, loopcount2, true)
-      }
-    })
+        })
+      }, 2600);
+    }
+    catch (e) {
+      console.log(e)
+      launch(loopcount, loopcount2, true)
+    }
   }
 
   let temp
