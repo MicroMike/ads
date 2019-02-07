@@ -414,10 +414,7 @@ let count = 0
 
 const launch = async (retry) => {
   if (over) { return }
-  if (count > 20) {
-    launch()
-    return
-  }
+  if (count > 20) { return }
   if (!retry) { count++ }
 
   const tmp = 'save/' + 1 + Math.random()
@@ -450,18 +447,14 @@ const launch = async (retry) => {
         console.log(domain, 'ok')
       }
 
-      count--
-
       setTimeout(async () => {
+        count--
         await adPage.close()
       }, 1000 * 10 + rand(1000 * 30));
-
-      launch()
     }
     catch (e) {
       console.log(domain, e)
       count--
-      launch()
 
       try {
         await adPage.close()
@@ -492,7 +485,9 @@ const inter = setInterval(() => {
 
 fs.remove('save', async (err) => {
   loop()
-  launch()
+  setTimeout(() => {
+    launch()
+  }, 1000);
 })
 
 process.on('SIGINT', function (code) {
