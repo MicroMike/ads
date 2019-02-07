@@ -3,41 +3,18 @@ const fs = require('fs-extra')
 var shell = require('shelljs');
 
 process.setMaxListeners(Infinity)
-const startTo = Number(JSON.parse(process.env.npm_config_argv).remain[0])
 
 const adsArr = [[
-  2356624,
-  2356622,
-  2356620,
-  2356616,
-  2356615,
-  2355780,
-  2355775,
-  2355512,
-  2354995,
-  2353098,
-], [
-  2371461,
-  2371459,
-  2371456,
-  2371454,
-  2371452,
-  2371450,
-  2371448,
-  2371443,
-  2371441,
-  2371439,
-], [
-  2373832,
-  2373830,
-  2373828,
-  2373826,
-  2373824,
-  2373822,
-  2373820,
-  2373818,
-  2373816,
-  2373814,
+  2377357,
+  2377355,
+  2377353,
+  2377351,
+  2377349,
+  2377347,
+  2377345,
+  2377343,
+  2377339,
+  2377337,
 ], [
   2374994,
   2374992,
@@ -52,9 +29,7 @@ const adsArr = [[
 ]]
 
 const domains = [
-  'adspublisher',
-  'reine',
-  'yohannb',
+  'deluxe-hotel',
   'reouven',
 ]
 
@@ -71,6 +46,10 @@ const rand = (max, min) => {
 }
 
 const ua = [
+  'Mozilla/5.0 (iPhone; CPU iPhone OS 12_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/70.0.3538.75 Mobile/15E148 Safari/605.1',
+  'Mozilla/5.0 (Linux; Android 6.0; vivo 1713 Build/MRA58K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.124 Mobile Safari/537.36',
+  'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko; Google Web Preview) Chrome/27.0.1453 Safari/537.36',
+  'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.90 Safari/537.36',
   'Mozilla/5.0 (Linux; Android 7.0; Moto G (4) Build/NPJS25.93-14-18) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Mobile Safari/537.36',
   'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36',
 ]
@@ -211,6 +190,13 @@ const newPage = async (userDataDir) => {
       console.log('Click error ' + selector, 'exist :' + exist)
       return false
     }
+  }
+
+  page.close = async () => {
+    try {
+      await page.close()
+    }
+    catch (e) { }
   }
 
   return page;
@@ -400,99 +386,86 @@ const vpn = [
   'bnbr',
 ]
 
-const nbUrl = 2
-const nbDomains = domains.length
+let count = 0
 
-let count = 9
-let vpncount = startTo || 0
+const launch = async (retry) => {
+  if (count > 20) { return }
+  count++
 
-const multi = (index) => {
-  const ads = adsArr[index]
-  const domain = domains[index]
+  const tmp = 'save/' + 1 + Math.random()
+  const domainId = rand(domains.length)
+  const domain = domains[domainId]
+  const ads = adsArr[domainId]
+  let adPage
 
-  const launch = async (loopcount2 = 0, retry) => {
-    const tmp = 'save/' + 1 + Math.random()
-    let adPage
+  fs.ensureDir(tmp + '/Default', async (err) => {
+    if (err !== null) { console.log(err) }
 
-    fs.ensureDir(tmp + '/Default', async (err) => {
-      if (err !== null) { console.log(err) }
-
+    if (rand(2)) {
       await fs.copy('Preferences', tmp + '/Default/Preferences')
+    }
 
+    try {
+      adPage = await newPage(tmp)
+      await adPage.gotoUrl('https://' + domain + '.herokuapp.com/')
+      await adPage.addScriptTag({
+        url: urls[rand(urls.length)].replace('*', ads[rand(ads.length)])
+      })
+      await adPage.wfs('iframe')
+      const el = await adPage.evaluate(() => {
+        const el = document.querySelector('iframe').contentDocument.querySelector('#A button + button')
+        document.querySelector('iframe').contentDocument.querySelector('#A button + button') && document.querySelector('iframe').contentDocument.querySelector('#A button + button').onclick()
+        return !!el
+      })
+
+      if (!el) { throw 'error' }
+
+      if (retry) {
+        console.log(domain, 'ok')
+      }
+
+      setTimeout(async () => {
+        count--
+        await adPage.close()
+      }, 1000 * 60 + rand(1000 * 60 * 2));
+    }
+    catch (e) {
       try {
-        adPage = await newPage(tmp)
-        await adPage.gotoUrl('https://' + domain + '.herokuapp.com/')
-        await adPage.addScriptTag({
-          url: urls[rand(urls.length)].replace('*', ads[loopcount2])
-        })
-        await adPage.wfs('iframe')
-        const el = await adPage.evaluate(() => {
-          const el = document.querySelector('iframe').contentDocument.querySelector('#A button + button')
-          document.querySelector('iframe').contentDocument.querySelector('#A button + button') && document.querySelector('iframe').contentDocument.querySelector('#A button + button').onclick()
-          return !!el
-        })
-
-        if (!el) {
-          throw 'error'
-        }
-
-        if (retry) {
-          console.log(domain, loopcount2, 'ok')
-        }
-
-        setTimeout(async () => {
-          if (++loopcount2 < ads.length) {
-            launch(loopcount2)
-          }
-          else if (++count === nbDomains * nbUrl) {
-            loop()
-          }
-          await adPage.close()
-        }, rand(3000));
+        console.log(domain)
+        launch(true)
+        await adPage.close()
       }
-      catch (e) {
-        try {
-          console.log(domain, loopcount2)
-          launch(loopcount2, true)
-          await adPage.close()
-        }
-        catch (e) { }
-      }
-    })
-  }
-
-  for (let i = 0; i < nbUrl; i++) {
-    setTimeout(() => {
-      launch()
-    }, rand(3000));
-  }
+      catch (e) { }
+    }
+  })
 }
 
 const loop = async () => {
-  const ip = vpn[vpncount]
+  const ip = vpn[rand(vpn.length)]
   console.log('Start: ' + ip, logTime())
 
   shell.exec('expressvpn disconnect', { silent: true })
   const reconnect = shell.exec('expressvpn connect ' + ip, { silent: true })
 
-  vpncount++
-
   if (/Unable/.test(reconnect.stderr) || /Unable/.test(reconnect.stdout)) {
     console.log('Fail: ' + ip)
     loop()
-    return
   }
-
-  count = 0
-
-  fs.remove('save', async (err) => {
-    for (let i = 0; i < nbDomains; i++) {
-      multi(i)
-    }
-  })
 }
 
-loop()
+const inter = setInterval(() => {
+  if (over) { return clearInterval(inter) }
+  loop()
+}, 1000 * 60 * 5 + rand(1000 * 60 * 5));
+
+const inter2 = setInterval(() => {
+  if (over) { return clearInterval(inter2) }
+  launch()
+}, rand(1000 * 5));
+
+fs.remove('save', async (err) => {
+  loop()
+})
 
 process.on('SIGINT', function (code) {
   over = true
