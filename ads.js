@@ -444,7 +444,7 @@ const launch = async (retry) => {
       await adPage.waitFor(1000 * 10 + rand(1000 * 20))
       count--
       if (adPage) {
-        console.log(adPage)
+        console.log(!!adPage)
         await adPage.close()
       }
     }
