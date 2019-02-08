@@ -429,6 +429,22 @@ const launch = async (retry) => {
         return false
       }
     }
+
+    page.cls = async () => {
+      try {
+        await page.goto('about:blank')
+        await page.close()
+      }
+      catch (e) {
+        try {
+          page.cls()
+        }
+        catch (e) {
+          console.log('Can\'t close')
+        }
+      }
+    }
+
     try {
       await page.gotoUrl('https://' + domain + '.herokuapp.com/')
       await page.addScriptTag({
@@ -449,19 +465,14 @@ const launch = async (retry) => {
       }
 
       await page.waitFor(1000 * 10 + rand(1000 * 20))
-      await page.goto('about:blank')
-      console.log('close')
       count--
-      try {
-        await page.close()
-      }
-      catch (e) { }
+      await page.cls()
     }
     catch (e) {
       count--
       console.log(e)
       try {
-        await page.close()
+        await page.cls()
       }
       catch (e) { }
     }
