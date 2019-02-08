@@ -266,7 +266,7 @@ let count = 0
 
 const launch = async (retry) => {
   if (over) { return }
-  if (count > 20) { return }
+  // if (count > 20) { return }
   count++
 
   const tmp = 'save/' + 1 + Math.random()
