@@ -2,7 +2,7 @@ const puppeteer = require('puppeteer');
 const fs = require('fs-extra')
 var shell = require('shelljs');
 
-process.setMaxListeners(21)
+process.setMaxListeners(Infinity)
 
 const adsArr = [[
   2377357,
