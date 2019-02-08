@@ -338,15 +338,7 @@ const launch = async (retry) => {
         await page.waitForSelector(selector, { timeout })
         return true
       } catch (e) {
-        if (retry) {
-          throw 'Selector :' + selector + ' not found'
-        }
-        else {
-          try {
-            await page.reload()
-            await page.wfs(selector, timeout)
-          } catch (e) { }
-        }
+        throw 'Selector :' + selector + ' not found'
       }
     }
 
@@ -436,12 +428,7 @@ const launch = async (retry) => {
         await page.close()
       }
       catch (e) {
-        try {
-          page.cls()
-        }
-        catch (e) {
-          console.log('Can\'t close')
-        }
+        console.log('Can\'t close')
       }
     }
 
@@ -471,10 +458,7 @@ const launch = async (retry) => {
     catch (e) {
       count--
       console.log(e)
-      try {
-        await page.cls()
-      }
-      catch (e) { }
+      await page.cls()
     }
   })
 }
