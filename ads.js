@@ -315,6 +315,15 @@ const launch = async (retry) => {
       });
     });
 
+    await page.setRequestInterception(true);
+    page.on('request', async request => {
+      const requestUrl = await request.url()
+      if (request.resourceType() === 'image' && !/svg$/.test(requestUrl)) {
+        return request.abort(['blockedbyclient']);
+      }
+      request.continue();
+    });
+
     page.gotoUrl = async (url) => {
       try {
         await page.goto(url, { timeout: 1000 * 60 * 5, waitUntil: 'domcontentloaded' })
@@ -328,13 +337,15 @@ const launch = async (retry) => {
       try {
         await page.waitForSelector(selector, { timeout })
         return true
-      } catch (error) {
+      } catch (e) {
         if (retry) {
           throw 'Selector :' + selector + ' not found'
         }
         else {
-          await page.reload()
-          await page.wfs(selector, timeout)
+          try {
+            await page.reload()
+            await page.wfs(selector, timeout)
+          } catch (e) { }
         }
       }
     }
@@ -439,13 +450,12 @@ const launch = async (retry) => {
 
       await page.waitFor(1000 * 10 + rand(1000 * 20))
       await page.goto('about:blank')
+      console.log('close')
       count--
       try {
         await page.close()
       }
-      catch (e) {
-        console.log('close')
-      }
+      catch (e) { }
     }
     catch (e) {
       count--
