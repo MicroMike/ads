@@ -282,7 +282,6 @@ const launch = async (retry) => {
       browser = await puppeteer.launch(params);
     }
     catch (e) {
-      console.log('launch error')
       count--
       return
     }
