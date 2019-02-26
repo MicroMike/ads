@@ -32,7 +32,6 @@ const domains = [
   'barcut-salon',
   'barcut-salon',
   'deluxe-hotel',
-  'reouven',
   'yogalife',
 ]
 
