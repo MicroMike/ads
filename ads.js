@@ -15,9 +15,21 @@ const adsArr = [[
   2453285,
   2453283,
   2453281,
+], [
+  2453352,
+  2453350,
+  2453348,
+  2453346,
+  2453344,
+  2453342,
+  2453340,
+  2453338,
+  2453336,
+  2453332,
 ]]
 
 const domains = [
+  'barcut-salon',
   'barcut-salon',
   'deluxe-hotel',
   'reouven',
@@ -56,6 +68,7 @@ const urls = [
   '//pastoupt.com/ntfc.php?p=*&tco=1',
   '//joophesh.com/ntfc.php?p=*&tco=1',
   '//cimoghuk.net/ntfc.php?p=*&tco=1',
+  '//whirgoom.com/ntfc.php?p=*&tco=1',
 ]
 
 const vpn = [
