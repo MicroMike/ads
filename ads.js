@@ -5,56 +5,23 @@ var shell = require('shelljs');
 process.setMaxListeners(Infinity)
 
 const adsArr = [[
-  2377357,
-  2377355,
-  2377353,
-  2377351,
-  2377349,
-  2377347,
-  2377345,
-  2377343,
-  2377339,
-  2377337,
-], [
-  2374994,
-  2374992,
-  2374990,
-  2374988,
-  2374985,
-  2374983,
-  2374981,
-  2374979,
-  2374977,
-  2374975,
-], [
-  2377507,
-  2377505,
-  2377503,
-  2377501,
-  2377499,
-  2377497,
-  2377495,
-  2377493,
-  2377491,
-  2377489,
-], [
-  2377533,
-  2377531,
-  2377529,
-  2377527,
-  2377525,
-  2377523,
-  2377521,
-  2377519,
-  2377514,
-  2377512,
+  2453299,
+  2453297,
+  2453295,
+  2453293,
+  2453291,
+  2453289,
+  2453287,
+  2453285,
+  2453283,
+  2453281,
 ]]
 
 const domains = [
+  'barcut-salon',
   'deluxe-hotel',
   'reouven',
   'yogalife',
-  'barcut-salon',
 ]
 
 let over = false
@@ -432,18 +399,22 @@ const launch = async (retry) => {
       }
     }
 
+    let el = true
+
     try {
       await page.gotoUrl('https://' + domain + '.herokuapp.com/')
-      await page.addScriptTag({
-        url: urls[rand(urls.length)].replace('*', ads[rand(ads.length)])
-      })
-      await page.wfs('iframe')
-      await page.waitFor(1000 * 5 + rand(1000 * 5))
-      const el = await page.evaluate(() => {
-        const el = document.querySelector('iframe').contentDocument.querySelector('#A button + button')
-        document.querySelector('iframe').contentDocument.querySelector('#A button + button') && document.querySelector('iframe').contentDocument.querySelector('#A button + button').onclick()
-        return !!el
-      })
+      if (ads) {
+        await page.addScriptTag({
+          url: urls[rand(urls.length)].replace('*', ads[rand(ads.length)])
+        })
+        await page.wfs('iframe')
+        await page.waitFor(1000 * 5 + rand(1000 * 5))
+        el = await page.evaluate(() => {
+          const el = document.querySelector('iframe').contentDocument.querySelector('#A button + button')
+          document.querySelector('iframe').contentDocument.querySelector('#A button + button') && document.querySelector('iframe').contentDocument.querySelector('#A button + button').onclick()
+          return !!el
+        })
+      }
 
       if (!el) { throw 'error' }
 
