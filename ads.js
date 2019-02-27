@@ -461,17 +461,19 @@ const loop = async () => {
 }
 
 let time = 0
+const addTime = 1000 * 5
 
 const multi = async () => {
   if (over) { return }
   if (time >= 1000 * 60 * 5 + rand(1000 * 60 * 5)) {
     await loop()
+    time = 0
   }
-  time = Date.now()
   await launch()
-  time = Date.now() - time
-  console.log(time)
-  multi()
+  setTimeout(() => {
+    multi()
+    time += addTime
+  }, addTime);
 }
 
 fs.remove('save', async (err) => {
