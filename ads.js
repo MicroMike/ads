@@ -280,7 +280,7 @@ const launch = async (retry) => {
       return
     }
 
-    browsers[tmp] = browser
+    browsers.push(browser)
 
     const pages = await browser.pages()
     const page = pages[0]
@@ -400,7 +400,7 @@ const launch = async (retry) => {
 
     page.cls = async () => {
       try {
-        browsers.splice(browsers.indexOf(tmp), 1)
+        browsers.pop()
         await page.goto('about:blank')
         await browser.close()
       }
@@ -463,6 +463,7 @@ const multi = async () => {
 
   if (time >= 1000 * 60 * 1) {
     if (browsers.length === 0) {
+      console.log('vpn' + browsers.length)
       await loop()
       time = 0
       multi()
@@ -476,6 +477,7 @@ const multi = async () => {
     }
   }
   else {
+    console.log('launch' + browsers.length)
     if (browsers.length < 5) {
       await launch()
     }
