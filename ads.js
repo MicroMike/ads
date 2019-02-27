@@ -465,6 +465,8 @@ const multi = async () => {
     if (browsers.length === 0) {
       await loop()
       time = 0
+      multi()
+      return
     }
     else {
       setTimeout(() => {
@@ -474,7 +476,7 @@ const multi = async () => {
     }
   }
   else {
-    if (browsers.length <= 5) {
+    if (browsers.length < 5) {
       await launch()
     }
   }
