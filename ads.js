@@ -480,6 +480,7 @@ const multi = async () => {
     console.log('launch' + browsers.length)
     if (browsers.length < 5) {
       await launch()
+      await launch()
     }
   }
 
