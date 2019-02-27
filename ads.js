@@ -305,7 +305,7 @@ const launch = async (retry) => {
         await page.goto(url, { timeout: 1000 * 60 * 5, waitUntil: 'domcontentloaded' })
         return true
       } catch (error) {
-        throw 'error connect'
+        await page.gotoUrl(url)
       }
     }
 
