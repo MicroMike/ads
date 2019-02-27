@@ -241,12 +241,8 @@ const vpn = [
   'bnbr',
 ]
 
-let count = 0
-
 const launch = async (retry) => {
   if (over) { return }
-  // if (count > 20) { return }
-  count++
 
   const tmp = 'save/' + 1 + Math.random()
   const domainId = rand(domains.length)
@@ -281,8 +277,7 @@ const launch = async (retry) => {
       browser = await puppeteer.launch(params);
     }
     catch (e) {
-      console.log('browser error')
-      count--
+      console.log(e)
       return
     }
 
@@ -436,11 +431,9 @@ const launch = async (retry) => {
       }
 
       await page.waitFor(1000 * 10 + rand(1000 * 20))
-      count--
       await page.cls()
     }
     catch (e) {
-      count--
       console.log(e)
       await page.cls()
     }
