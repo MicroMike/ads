@@ -462,7 +462,7 @@ const addTime = 1000 * 5
 const multi = async () => {
   if (over) { return }
 
-  if (time >= 1000 * 60 * 1) {
+  if (time >= 1000 * 60 * 5) {
     if (browsers.length === 0) {
       await loop()
       time = 0
