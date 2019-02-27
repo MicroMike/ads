@@ -475,6 +475,7 @@ const multi = async () => {
 }
 
 fs.remove('save', async (err) => {
+  await loop()
   multi()
 })
 
