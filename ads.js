@@ -251,7 +251,7 @@ const launch = async (retry) => {
 
     await fs.copy(rand(2) ? 'Preferences' : 'PreferencesNo', tmp + '/Default/Preferences')
     const params = {
-      executablePath: '/usr/bin/google-chrome-stable',
+      // executablePath: '/usr/bin/google-chrome-stable',
       userDataDir: tmp,
       headless: false,
       args: [
