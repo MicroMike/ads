@@ -427,7 +427,7 @@ const launch = async (retry) => {
         console.log(domain, 'ok')
       }
 
-      await page.waitFor(1000 * 10 + rand(1000 * 20))
+      await page.waitFor(rand(1000 * 10))
       await page.cls()
     }
     catch (e) {
