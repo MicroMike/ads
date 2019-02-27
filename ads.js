@@ -397,7 +397,7 @@ const launch = async (retry) => {
     page.cls = async () => {
       try {
         await page.goto('about:blank')
-        await page.close()
+        await browser.close()
       }
       catch (e) {
         console.log('Can\'t close')
