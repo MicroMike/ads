@@ -473,8 +473,11 @@ const multi = async () => {
       return
     }
   }
-
-  await launch()
+  else {
+    if (browsers.length <= 5) {
+      await launch()
+    }
+  }
 
   setTimeout(() => {
     time += addTime
