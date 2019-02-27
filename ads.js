@@ -455,25 +455,26 @@ const loop = async () => {
 
   if (/Unable/.test(reconnect.stderr) || /Unable/.test(reconnect.stdout)) {
     console.log('Fail: ' + ip)
-    loop()
+    await loop()
   }
 }
 
-const inter = setInterval(() => {
-  if (over) { return clearInterval(inter) }
-  loop()
-}, 1000 * 60 * 5 + rand(1000 * 60 * 5));
+let time = 0
 
 const multi = async () => {
-  launch()
+  if (over) { return }
+  if (time >= 1000 * 60 * 5 + rand(1000 * 60 * 5)) {
+    await loop()
+  }
+  time = Date.now()
+  await launch()
+  time = Date.now() - time
+  console.log(time)
+  multi()
 }
 
 fs.remove('save', async (err) => {
-  loop()
-  const inter2 = setInterval(() => {
-    if (over) { return clearInterval(inter2) }
-    multi()
-  }, 2600);
+  multi()
 })
 
 process.on('SIGINT', function (code) {
