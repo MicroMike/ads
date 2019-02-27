@@ -462,8 +462,8 @@ const multi = async () => {
   if (over) { return }
 
   if (time >= 1000 * 60 * 1) {
+    console.log('vpn' + browsers.length)
     if (browsers.length === 0) {
-      console.log('vpn' + browsers.length)
       await loop()
       time = 0
       multi()
