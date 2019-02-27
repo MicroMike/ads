@@ -19,7 +19,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "push": "git add . && git commit -m c && git push"
+    "push": "git add . && git commit -m c && git push",
+    "inity": "/sbin/ip route del 173.249.43.0/24 via 173.249.43.1 dev eth0 && /sbin/ip route add 173.249.43.0/24 dev eth0 proto kernel scope link src 173.249.43.6 && expressvpn connect nl"
   },
   "eslintConfig": {
     "extends": "react-app"
