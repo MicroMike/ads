@@ -253,7 +253,7 @@ const launch = async (retry) => {
 
     await fs.copy(rand(2) ? 'Preferences' : 'PreferencesNo', tmp + '/Default/Preferences')
     const params = {
-      // executablePath: '/usr/bin/google-chrome-stable',
+      executablePath: '/usr/bin/google-chrome-stable',
       userDataDir: tmp,
       headless: false,
       args: [
@@ -461,7 +461,7 @@ const addTime = 1000 * 5
 const multi = async () => {
   if (over) { return }
 
-  if (time >= 1000 * 60 * 5 + rand(1000 * 60 * 5)) {
+  if (time >= 1000 * 60 * 1) {
     if (browsers.length === 0) {
       await loop()
       time = 0
