@@ -35,6 +35,8 @@ const domains = [
   'yogalife',
 ]
 
+const browsers = []
+
 let over = false
 const CRX_PATH = 'C:\\Users\\mike\\workspace\\ads\\ext\\Extensions'
 
@@ -278,6 +280,8 @@ const launch = async (retry) => {
       return
     }
 
+    browsers[tmp] = browser
+
     const pages = await browser.pages()
     const page = pages[0]
 
@@ -396,6 +400,7 @@ const launch = async (retry) => {
 
     page.cls = async () => {
       try {
+        browsers.splice(browsers.indexOf(tmp), 1)
         await page.goto('about:blank')
         await browser.close()
       }
@@ -455,14 +460,25 @@ const addTime = 1000 * 5
 
 const multi = async () => {
   if (over) { return }
+
   if (time >= 1000 * 60 * 5 + rand(1000 * 60 * 5)) {
-    await loop()
-    time = 0
+    if (browsers.length === 0) {
+      await loop()
+      time = 0
+    }
+    else {
+      setTimeout(() => {
+        multi()
+      }, 1000);
+      return
+    }
   }
+
   await launch()
+
   setTimeout(() => {
-    multi()
     time += addTime
+    multi()
   }, addTime);
 }
 
