@@ -456,7 +456,7 @@ const loop = async () => {
 }
 
 let time = 0
-const addTime = 1000 * 10
+const addTime = 1000 * 15
 
 const multi = async () => {
   if (over) { return }
@@ -479,7 +479,6 @@ const multi = async () => {
   else {
     console.log('launch' + browsers.length)
     if (browsers.length < 5) {
-      await launch()
       await launch()
     }
   }
