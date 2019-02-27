@@ -306,7 +306,7 @@ const launch = async (retry) => {
         await page.goto(url, { timeout: 1000 * 60 * 5, waitUntil: 'domcontentloaded' })
         return true
       } catch (error) {
-        await page.gotoUrl(url)
+        throw 'error connect'
       }
     }
 
@@ -463,7 +463,6 @@ const multi = async () => {
   if (over) { return }
 
   if (time >= 1000 * 60 * 1) {
-    console.log('vpn' + browsers.length)
     if (browsers.length === 0) {
       await loop()
       time = 0
@@ -478,10 +477,7 @@ const multi = async () => {
     }
   }
   else {
-    console.log('launch' + browsers.length)
-    if (browsers.length < 5) {
-      await launch()
-    }
+    await launch()
   }
 
   setTimeout(() => {
