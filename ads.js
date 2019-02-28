@@ -292,7 +292,7 @@ const launch = async (retry) => {
       browser = await puppeteer.launch(params);
     }
     catch (e) {
-      console.log('create' + e)
+      console.log('create ' + e)
       return
     }
 
@@ -453,7 +453,7 @@ const launch = async (retry) => {
       await page.cls()
     }
     catch (e) {
-      console.log(e)
+      console.log('close ' + e)
       await page.cls()
     }
   })
