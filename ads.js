@@ -45,7 +45,7 @@ let over = false
 const CRX_PATH = 'C:\\Users\\mike\\workspace\\ads\\ext\\Extensions'
 
 const logTime = () => {
-  const date = new Date
+  const date = new Date()
   return date.getUTCHours() + 1 + 'H' + date.getUTCMinutes()
 }
 
