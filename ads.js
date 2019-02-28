@@ -481,12 +481,14 @@ const multi = async () => {
     else {
       setTimeout(() => {
         multi()
-      }, 1000);
+      }, 1000 * 3);
       return
     }
   }
   else {
-    await launch()
+    if (browsers.length < 10) {
+      await launch()
+    }
   }
 
   setTimeout(() => {
