@@ -27,13 +27,16 @@ const adsArr = [[
   2453338,
   2453336,
   2453332,
+], [
+  2457237,
+  2457236,
 ]]
 
 const domains = [
-  'barcut-salon',
-  'barcut-salon',
-  'deluxe-hotel',
-  'yogalife',
+  { url: 'barcut-salon', type: 0 },
+  { url: 'barcut-salon', type: 0 },
+  { url: 'reouven', type: 1 },
+  { url: 'yogalife', type: 0 },
 ]
 
 const browsers = []
@@ -68,6 +71,11 @@ const urls = [
   '//joophesh.com/ntfc.php?p=*&tco=1',
   '//cimoghuk.net/ntfc.php?p=*&tco=1',
   '//whirgoom.com/ntfc.php?p=*&tco=1',
+]
+
+const customUrls = [
+  '//pushnevis.com/ntfc.php?p=*',
+  '//pushlum.com/ntfc.php?p=*'
 ]
 
 const vpn = [
@@ -246,8 +254,9 @@ const launch = async (retry) => {
 
   const tmp = 'save/' + 1 + Math.random()
   const domainId = rand(domains.length)
-  const domain = domains[domainId]
+  const domain = domains[domainId].url
   const ads = adsArr[domainId]
+  const urlsArr = domains[domainId].type ? customUrls : urls
 
   fs.ensureDir(tmp + '/Default', async (err) => {
     if (err !== null) { console.log(err) }
@@ -416,7 +425,7 @@ const launch = async (retry) => {
       await page.gotoUrl('https://' + domain + '.herokuapp.com/')
       if (ads) {
         await page.addScriptTag({
-          url: urls[rand(urls.length)].replace('*', ads[rand(ads.length)])
+          url: urlsArr[rand(urlsArr.length)].replace('*', ads[rand(ads.length)])
         })
         await page.wfs('iframe')
         await page.waitFor(1000 * 5 + rand(1000 * 5))
