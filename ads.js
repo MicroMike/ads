@@ -453,16 +453,18 @@ const launch = async (retry) => {
 }
 
 const loop = async () => {
-  const ip = vpn[rand(vpn.length)]
-  console.log('Start: ' + ip, logTime())
+  fs.remove('save', async (err) => {
+    const ip = vpn[rand(vpn.length)]
+    console.log('Start: ' + ip, logTime())
 
-  shell.exec('expressvpn disconnect', { silent: true })
-  const reconnect = shell.exec('expressvpn connect ' + ip, { silent: true })
+    shell.exec('expressvpn disconnect', { silent: true })
+    const reconnect = shell.exec('expressvpn connect ' + ip, { silent: true })
 
-  if (/Unable/.test(reconnect.stderr) || /Unable/.test(reconnect.stdout)) {
-    console.log('Fail: ' + ip)
-    await loop()
-  }
+    if (/Unable/.test(reconnect.stderr) || /Unable/.test(reconnect.stdout)) {
+      console.log('Fail: ' + ip)
+      await loop()
+    }
+  })
 }
 
 let time = 0
