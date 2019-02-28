@@ -410,11 +410,12 @@ const launch = async (retry) => {
 
     page.cls = async () => {
       try {
-        browsers.pop()
         await page.goto('about:blank')
         await browser.close()
+        browsers.pop()
       }
       catch (e) {
+        browsers.pop()
         console.log('Can\'t close')
       }
     }
