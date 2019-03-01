@@ -265,7 +265,7 @@ const launch = async (retry) => {
       await fs.copy(rand(2) ? 'Preferences' : 'PreferencesNo', tmp + '/Default/Preferences')
     }
     catch (e) {
-      await fs.copy(rand(2) ? 'Preferences' : 'PreferencesNo', tmp + '/Default/Preferences')
+      return
     }
 
     const params = {
@@ -321,7 +321,7 @@ const launch = async (retry) => {
         await page.goto(url, { timeout: 1000 * 60 * 5, waitUntil: 'domcontentloaded' })
         return true
       } catch (error) {
-        throw 'error connect'
+        throw error
       }
     }
 
@@ -427,7 +427,10 @@ const launch = async (retry) => {
     let el = true
 
     try {
-      await page.gotoUrl('https://' + domain + '.herokuapp.com/')
+      const isGotoOk = await page.gotoUrl('https://' + domain + '.herokuapp.com/')
+      if (!isGotoOk) {
+        console.log('error connect url' + isGotoOk)
+      }
       if (ads) {
         await page.addScriptTag({
           url: urlsArr[rand(urlsArr.length)].replace('*', ads[rand(ads.length)])
@@ -475,23 +478,17 @@ const loop = async () => {
 }
 
 let time = 0
-const addTime = 1000 * 7
+const addTime = 1000 * 3
 
 const multi = async () => {
   if (over) { return }
+
+  time += addTime
 
   if (time >= 1000 * 60 * 5) {
     if (browsers === 0) {
       await loop()
       time = 0
-      multi()
-      return
-    }
-    else {
-      setTimeout(() => {
-        multi()
-      }, 1000 * 3);
-      return
     }
   }
   else {
@@ -501,7 +498,6 @@ const multi = async () => {
   }
 
   setTimeout(() => {
-    time += addTime
     multi()
   }, addTime);
 }
