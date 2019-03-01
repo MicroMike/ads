@@ -35,7 +35,7 @@ const adsArr = [[
 const domains = [
   { url: 'barcut-salon', type: 0 },
   { url: 'barcut-salon', type: 0 },
-  { url: 'reouven', type: 1 },
+  { url: 'reouven', type: 0 },
   { url: 'yogalife', type: 0 },
 ]
 
