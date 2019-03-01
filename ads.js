@@ -269,7 +269,7 @@ const launch = async (retry) => {
     }
 
     const params = {
-      executablePath: '/usr/bin/google-chrome-stable',
+      executablePath: '/usr/bin/google-chrome',
       userDataDir: tmp,
       headless: false,
       args: [
