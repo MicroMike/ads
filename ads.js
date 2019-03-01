@@ -449,7 +449,7 @@ const launch = async (retry) => {
         console.log(domain, 'ok')
       }
 
-      await page.waitFor(rand(1000 * 5))
+      await page.waitFor(rand(1000 * 3))
       await page.cls()
       browsers--
     }
@@ -477,7 +477,7 @@ const loop = async () => {
 }
 
 let time = 0
-const addTime = 1000 * 5
+const addTime = 1000 * 10
 
 const multi = async () => {
   if (over) { return }
