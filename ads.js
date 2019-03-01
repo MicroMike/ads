@@ -39,7 +39,7 @@ const domains = [
   { url: 'yogalife', type: 0 },
 ]
 
-const browsers = []
+let browsers = 0
 
 let over = false
 const CRX_PATH = 'C:\\Users\\mike\\workspace\\ads\\ext\\Extensions'
@@ -296,10 +296,10 @@ const launch = async (retry) => {
       return
     }
 
-    browsers.push(browser)
-
     const pages = await browser.pages()
     const page = pages[0]
+
+    browsers++
 
     await page.evaluateOnNewDocument(() => {
       Object.defineProperty(navigator, 'webdriver', {
@@ -418,10 +418,8 @@ const launch = async (retry) => {
       try {
         await page.goto('about:blank')
         await browser.close()
-        browsers.pop()
       }
       catch (e) {
-        browsers.pop()
         console.log('Can\'t close')
       }
     }
@@ -451,8 +449,10 @@ const launch = async (retry) => {
 
       await page.waitFor(rand(1000 * 10))
       await page.cls()
+      browsers--
     }
     catch (e) {
+      browsers--
       console.log('close ' + e)
       await page.cls()
     }
@@ -481,7 +481,7 @@ const multi = async () => {
   if (over) { return }
 
   if (time >= 1000 * 60 * 5) {
-    if (browsers.length === 0) {
+    if (browsers === 0) {
       await loop()
       time = 0
       multi()
@@ -495,7 +495,7 @@ const multi = async () => {
     }
   }
   else {
-    if (browsers.length < 10) {
+    if (browsers < 10) {
       await launch()
     }
   }
