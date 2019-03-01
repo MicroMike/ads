@@ -449,7 +449,7 @@ const launch = async (retry) => {
         console.log(domain, 'ok')
       }
 
-      await page.waitFor(rand(1000 * 3))
+      await page.waitFor(ads ? 1000 * 5 + rand(1000 * 3) : 1000)
       await page.cls()
       browsers--
     }
