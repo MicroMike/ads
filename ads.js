@@ -301,7 +301,7 @@ const launch = async (retry) => {
         console.log(domain, 'ok')
       }
 
-      await page.waitFor(ads ? 1000 * 5 + rand(1000 * 3) : 1000)
+      await page.waitFor(ads ? 1000 * 10 : 1000)
       await page.cls()
       browsers--
     }
@@ -329,7 +329,7 @@ const loop = async () => {
 }
 
 let time = 0
-const addTime = 1000 * 10
+const addTime = 1000 * 7
 
 const multi = async () => {
   if (over) { return }
