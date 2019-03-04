@@ -28,14 +28,22 @@ const adsArr = [[
   2453336,
   2453332,
 ], [
-  2457237,
-  2457236,
+  2466954,
+  2466952,
+  2466950,
+  2466948,
+  2466946,
+  2466944,
+  2466942,
+  2466940,
+  2466938,
+  2466936,
 ]]
 
 const domains = [
   { url: 'barcut-salon', type: 0 },
   { url: 'barcut-salon', type: 0 },
-  { url: 'reouven', type: 0 },
+  { url: 'barcut-salon', type: 0 },
   { url: 'yogalife', type: 0 },
 ]
 
