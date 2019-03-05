@@ -42,10 +42,10 @@ module.exports = async (userDataDir, noCache) => {
     process.exit()
   }
 
-  // const pages = await browser.pages()
-  // const page = pages[0]
+  const pages = await browser.pages()
+  const page = pages[0]
 
-  const page = await browser.newPage();
+  // const page = await browser.newPage();
 
 
   await page.evaluateOnNewDocument(() => {
@@ -166,6 +166,8 @@ module.exports = async (userDataDir, noCache) => {
       throw 'Can\'t close', e
     }
   }
+
+  await page.gotoUrl('https://google.fr')
 
   return page
 }
