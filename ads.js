@@ -136,7 +136,7 @@ const loop = async () => {
 }
 
 let time = 0
-const addTime = 1000 * 8
+const addTime = 1000 * 7
 
 const multi = async () => {
   if (over) { return }
