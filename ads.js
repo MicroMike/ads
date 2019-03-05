@@ -9,14 +9,13 @@ const adsArr = [
   [2466954, 2466952, 2466950, 2466948, 2466946, 2466944, 2466942, 2466940, 2466938, 2466936],
   [2467157, 2467155, 2467153, 2467151, 2467149, 2467147, 2467143, 2467141, 2467138, 2467136],
   [2467235, 2467230, 2467228, 2467226, 2467224, 2467222, 2467220, 2467218, 2467216, 2467214],
-  [],
 ]
 
 const domains = [
   { url: 'barcut-salon', type: 0 },
   { url: 'yogalife', type: 0 },
   { url: 'conf-business', type: 0 },
-  { url: 'barcut-salon', type: 1 },
+  { url: 'barcut-salon', type: 0 },
   { url: 'yogalife', type: 0 },
   { url: 'conf-business', type: 0 },
 ]
@@ -137,7 +136,7 @@ const loop = async () => {
 }
 
 let time = 0
-const addTime = 1000 * 7
+const addTime = 1000 * 10
 
 const multi = async () => {
   if (over) { return }
