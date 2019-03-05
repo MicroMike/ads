@@ -79,7 +79,10 @@ const launch = async (retry) => {
     try {
       page = await puppet(tmp)
     }
-    catch (e) { }
+    catch (e) {
+      console.log(e)
+      process.exit()
+    }
 
     browsers++
     let el = true
