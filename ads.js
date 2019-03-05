@@ -15,6 +15,9 @@ const domains = [
   { url: 'barcut-salon', type: 0 },
   { url: 'yogalife', type: 0 },
   { url: 'conf-business', type: 0 },
+  { url: 'barcut-salon', type: 0 },
+  { url: 'yogalife', type: 0 },
+  { url: 'conf-business', type: 0 },
 ]
 
 let browsers = 0
