@@ -161,7 +161,7 @@ module.exports = async (userDataDir, noCache) => {
   }
 
   const isOk = await page.gotoUrl('https://google.fr')
-  if (isOk === true) {
+  if (isOk !== true) {
     console.log('fuck ' + isOk)
   }
 
