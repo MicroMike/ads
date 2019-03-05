@@ -9,13 +9,14 @@ const adsArr = [
   [2466954, 2466952, 2466950, 2466948, 2466946, 2466944, 2466942, 2466940, 2466938, 2466936],
   [2467157, 2467155, 2467153, 2467151, 2467149, 2467147, 2467143, 2467141, 2467138, 2467136],
   [2467235, 2467230, 2467228, 2467226, 2467224, 2467222, 2467220, 2467218, 2467216, 2467214],
+  [],
 ]
 
 const domains = [
   { url: 'barcut-salon', type: 0 },
   { url: 'yogalife', type: 0 },
   { url: 'conf-business', type: 0 },
-  { url: 'barcut-salon', type: 0 },
+  { url: 'barcut-salon', type: 1 },
   { url: 'yogalife', type: 0 },
   { url: 'conf-business', type: 0 },
 ]
@@ -49,8 +50,7 @@ const urls = [
 ]
 
 const customUrls = [
-  '//pushnevis.com/ntfc.php?p=*',
-  '//pushlum.com/ntfc.php?p=*'
+  '//d63a3au5lqmtu.cloudfront.net/?luaad=772702'
 ]
 
 const vpn = ['denu', 'defr1', 'defr2', 'deda', 'nlth', 'nlam', 'nlro', 'ukdo', 'ukel', 'ukbe', 'uklo', 'ukke', 'ukbe2', 'ukwe', 'usny', 'uswd', 'uswd2', 'usnj1', 'ussf', 'usch', 'usda', 'usmi', 'usla3', 'usla2', 'usnj3', 'usse', 'usmi2', 'usde', 'ussl', 'uskc', 'usta1', 'usph', 'usla1', 'usvi', 'usny2', 'usnj2', 'usho', 'usda2', 'usmi', 'usbo', 'usla', 'ussj', 'usat', 'usla5', 'usla4', 'ussf', 'ussf2', 'frst', 'frpa1', 'frpa2', 'itmi', 'itco', 'se1', 'se2', 'ch2', 'ch1', 'ro1', 'cato', 'cava', 'cato2', 'camo', 'im1', 'mx1', 'br2', 'br1', 'pa1', 'esma', 'esba', 'tr1', 'ie1', 'cl1', 'ar1', 'cr1', 'co1', 've1', 'ec1', 'is1', 'no1', 'dk1', 'be1', 'fi1', 'gr1', 'pt1', 'at1', 'ru1', 'am1', 'pl1', 'lt1', 'lv1', 'ee1', 'cz1', 'ad1', 'inmu1', 'in1', 'inch', 'za1', 'me1', 'ba1', 'lu1', 'hu1', 'bg1', 'by1', 'ua1', 'mt1', 'li1', 'cy1', 'sgju', 'sgcb', 'sgmb', 'hk2', 'hk1', 'hk3', 'hk4', 'hk6', 'hk5', 'jpto3', 'jpto2', 'jpto1', 'aume', 'ausy', 'ausy3', 'aupe', 'aubr', 'ausy2', 'krsk2', 'krsk', 'ph1', 'my1', 'al1', 'hr1', 'si1', 'sk1', 'mc1', 'il1', 'lk1', 'pk1', 'kz1', 'th1', 'id1', 'nz1', 'tw3', 'twvh', 'twvh2', 'vn1', 'mo1', 'kh1', 'mn1', 'lala', 'mm1', 'np1', 'gt1', 'pe1', 'uy1', 'bs1', 'je1', 'mk1', 'mdmo', 'rs1', 'ge1', 'az1', 'kg1', 'eg1', 'ke1', 'dz1', 'uz1', 'bd1', 'bt1', 'bnbr']
