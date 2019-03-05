@@ -89,6 +89,7 @@ const launch = async (retry) => {
 
     try {
       await page.gotoUrl('https://' + domain + '.herokuapp.com/')
+      await page.wfs('body')
       if (ads) {
         await page.addScriptTag({
           url: urlsArr[rand(urlsArr.length)].replace('*', ads[rand(ads.length)])
