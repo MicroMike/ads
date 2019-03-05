@@ -161,8 +161,8 @@ module.exports = async (userDataDir, noCache) => {
   }
 
   const isOk = await page.gotoUrl('https://google.fr')
-  if (isOk !== true) {
-    console.log('fuck ' + isOk)
+  if (isOk) {
+    console.log('fuck ' + isOk.json())
   }
 
   await page.evaluateOnNewDocument(() => {
