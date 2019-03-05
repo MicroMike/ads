@@ -60,7 +60,7 @@ module.exports = async (userDataDir, noCache) => {
   page.gotoUrl = async (url) => {
     try {
       const log = await page.goto(url, { timeout: 1000 * 60 * 5, waitUntil: 'domcontentloaded' })
-      console.log(util.inspect(log, false, null, true))
+      console.log(util.inspect(log, false, 2, true))
       return true
     } catch (e) {
       throw 'error load'
