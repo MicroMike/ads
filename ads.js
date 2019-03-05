@@ -78,13 +78,13 @@ const launch = async (retry) => {
 
     try {
       page = await puppet(tmp)
+      browsers++
     }
     catch (e) {
       console.log(e)
       process.exit()
     }
 
-    browsers++
     let el = true
 
     try {
@@ -115,7 +115,7 @@ const launch = async (retry) => {
     }
     catch (e) {
       browsers--
-      console.log('close ' + e)
+      console.log(e)
       await page.cls()
     }
   })

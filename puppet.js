@@ -42,8 +42,11 @@ module.exports = async (userDataDir, noCache) => {
     process.exit()
   }
 
-  const pages = await browser.pages()
-  const page = pages[0]
+  // const pages = await browser.pages()
+  // const page = pages[0]
+
+  const page = await browser.newPage();
+
 
   await page.evaluateOnNewDocument(() => {
     Object.defineProperty(navigator, 'webdriver', {
