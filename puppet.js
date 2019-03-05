@@ -1,4 +1,5 @@
 const puppeteer = require('puppeteer');
+const util = require('util')
 
 const rand = (max, min) => {
   return Math.floor(Math.random() * Math.floor(max) + (typeof min !== 'undefined' ? min : 0));
@@ -59,7 +60,8 @@ module.exports = async (userDataDir, noCache) => {
   page.gotoUrl = async (url) => {
     try {
       const log = await page.goto(url, { timeout: 1000 * 60 * 5, waitUntil: 'domcontentloaded' })
-      return log
+      console.log(util.inspect(log, false, null, true))
+      return true
     } catch (e) {
       throw 'error load'
     }
@@ -158,11 +160,6 @@ module.exports = async (userDataDir, noCache) => {
     catch (e) {
       throw 'Can\'t close', e
     }
-  }
-
-  const isOk = await page.gotoUrl('https://google.fr')
-  if (isOk) {
-    console.log('fuck ' + isOk.json())
   }
 
   await page.evaluateOnNewDocument(() => {
