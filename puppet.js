@@ -47,13 +47,6 @@ module.exports = async (userDataDir, noCache) => {
 
   // const page = await browser.newPage();
 
-
-  await page.evaluateOnNewDocument(() => {
-    Object.defineProperty(navigator, 'webdriver', {
-      get: () => false,
-    });
-  });
-
   // await page.setRequestInterception(true);
   // page.on('request', async request => {
   //   const requestUrl = await request.url()
@@ -167,7 +160,16 @@ module.exports = async (userDataDir, noCache) => {
     }
   }
 
-  await page.gotoUrl('https://google.fr')
+  const isOk = await page.gotoUrl('https://google.fr')
+  if (isOk === true) {
+    console.log('fuck ' + isOk)
+  }
+
+  await page.evaluateOnNewDocument(() => {
+    Object.defineProperty(navigator, 'webdriver', {
+      get: () => false,
+    });
+  });
 
   return page
 }
