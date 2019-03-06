@@ -62,12 +62,11 @@ module.exports = async (userDataDir, noCache) => {
       const log = await page.goto(url, { timeout: 1000 * 60 * 5, waitUntil: 'domcontentloaded' })
       // console.log(util.inspect(log, false, 2, true))
       const html = await page.evaluate(() => {
-        return document.querySelector('body') && document.querySelector('body').innerText()
+        return document.querySelector('body') && document.querySelector('body').innerText
       })
       console.log(log._status, html.slice(0, 20))
       return true
     } catch (e) {
-      console.log(e)
       throw 'error load'
     }
   }
