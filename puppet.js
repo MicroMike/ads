@@ -59,12 +59,7 @@ module.exports = async (userDataDir, noCache) => {
 
   page.gotoUrl = async (url) => {
     try {
-      const log = await page.goto(url, { timeout: 1000 * 60 * 5, waitUntil: 'domcontentloaded' })
-      // console.log(util.inspect(log, false, 2, true))
-      const html = await page.evaluate(() => {
-        return document.querySelector('body') && document.querySelector('body').innerText
-      })
-      console.log(log._status, html.slice(0, 20))
+      await page.goto(url, { timeout: 1000 * 60 * 5, waitUntil: 'domcontentloaded' })
       return true
     } catch (e) {
       throw 'error load'
@@ -158,7 +153,7 @@ module.exports = async (userDataDir, noCache) => {
 
   page.cls = async () => {
     try {
-      await page.goto('about:blank')
+      // await page.goto('about:blank')
       await browser.close()
     }
     catch (e) {
