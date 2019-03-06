@@ -67,6 +67,7 @@ module.exports = async (userDataDir, noCache) => {
       console.log(log._status, html.slice(0, 20))
       return true
     } catch (e) {
+      console.log(e)
       throw 'error load'
     }
   }
