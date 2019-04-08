@@ -33,7 +33,7 @@ module.exports = async (userDataDir, noCache) => {
 
   let browser
 
-  // params.executablePath = "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe"
+  params.executablePath = "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe"
 
   try {
     browser = await puppeteer.launch(params);
@@ -59,7 +59,7 @@ module.exports = async (userDataDir, noCache) => {
 
   page.gotoUrl = async (url) => {
     try {
-      await page.goto(url, { timeout: 1000 * 60 * 5, waitUntil: 'domcontentloaded' })
+      await page.goto(url, { timeout: 1000 * 60 * 5 })
       return true
     } catch (e) {
       throw 'error load'
@@ -154,7 +154,7 @@ module.exports = async (userDataDir, noCache) => {
   page.cls = async () => {
     try {
       // await page.goto('about:blank')
-      await browser.close()
+      await page.close()
     }
     catch (e) {
       throw 'Can\'t close', e
