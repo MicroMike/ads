@@ -120,10 +120,10 @@ multi = async () => {
     if (err !== null) { return console.log(err) }
     for (let key in adsArr) {
       for (let id of adsArr[key]) {
-        launch(url, id)
-        launch(url, id)
-        launch(url, id)
-        launch(url, id)
+        launch(key, id)
+        launch(key, id)
+        launch(key, id)
+        launch(key, id)
         const result = await launch(key, id)
         console.log(result)
       }
