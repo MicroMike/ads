@@ -33,7 +33,7 @@ module.exports = async (userDataDir, noCache) => {
 
   let browser
 
-  params.executablePath = "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe"
+  // params.executablePath = "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe"
 
   try {
     browser = await puppeteer.launch(params);
