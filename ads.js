@@ -52,7 +52,6 @@ const launch = async (url, id) => {
 
       try {
         const auth = rand(2)
-        console.log(auth)
         await fs.copy(auth ? 'Preferences' : 'PreferencesNo', tmp + '/Default/Preferences')
       }
       catch (e) {
@@ -76,11 +75,13 @@ const launch = async (url, id) => {
         await page.wfs('iframe')
         await page.waitFor(1000 * 5 + rand(1000 * 5))
         // await page.waitFor(1000 * 60 * 5)
-        el = await page.evaluate(() => {
-          const el = document.querySelector('iframe').contentDocument.querySelector('#A button + button')
-          el && el.click()
-          return !!el
-        })
+        if (auth) {
+          el = await page.evaluate(() => {
+            const el = document.querySelector('iframe').contentDocument.querySelector('#A button + button')
+            el && el.click()
+            return !!el
+          })
+        }
 
         if (!el) { throw 'error' }
 
