@@ -1,0 +1,1 @@
+importScripts('https://metosk.com/v1/sw-import.js?h=waWQiOjEwNDA3NTEsInNpZCI6MTA0NTA2Nywid2lkIjo4MjU0MCwic3JjIjoyLCJwbSI6MH0=eyJ&d=yogalife.herokuapp.com');
